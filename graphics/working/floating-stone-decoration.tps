@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.5.0</string>
         <key>fileName</key>
-        <string>/home/galen/Git/GodotSandbox/tilemaps/working/floating-stone-ground.tps</string>
+        <string>/home/galen/Git/redesigned-giggle/graphics/working/floating-stone-decoration.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -36,7 +36,7 @@
         <key>dataFormat</key>
         <string>spritesheet-only</string>
         <key>textureFileName</key>
-        <filename>floating-stone-ground.png</filename>
+        <filename>floating-stone-decoration.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -193,35 +193,24 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../tiles/ground/0 down-1-1.png</key>
-            <key type="filename">../tiles/ground/1 down-1-2.png</key>
-            <key type="filename">../tiles/ground/10 down-right-diag-2-1.png</key>
-            <key type="filename">../tiles/ground/11 down-right-diag-2-2.png</key>
-            <key type="filename">../tiles/ground/12 down-right-dot.png</key>
-            <key type="filename">../tiles/ground/13 down-left-dot.png</key>
-            <key type="filename">../tiles/ground/14 down-right-corner.png</key>
-            <key type="filename">../tiles/ground/15 down-left-corner.png</key>
-            <key type="filename">../tiles/ground/16 right-1.png</key>
-            <key type="filename">../tiles/ground/17 right-2.png</key>
-            <key type="filename">../tiles/ground/18 up-1.png</key>
-            <key type="filename">../tiles/ground/19 up-2.png</key>
-            <key type="filename">../tiles/ground/2 down-2-1.png</key>
-            <key type="filename">../tiles/ground/20 up-right-diag.png</key>
-            <key type="filename">../tiles/ground/21 up-left-diag.png</key>
-            <key type="filename">../tiles/ground/22 up-right-corner.png</key>
-            <key type="filename">../tiles/ground/23 up-left-corner.png</key>
-            <key type="filename">../tiles/ground/24 up-right-dot.png</key>
-            <key type="filename">../tiles/ground/25 up-left-dot.png</key>
-            <key type="filename">../tiles/ground/26 left-1.png</key>
-            <key type="filename">../tiles/ground/27 left-2.png</key>
-            <key type="filename">../tiles/ground/28 middle.png</key>
-            <key type="filename">../tiles/ground/3 down-2-2.png</key>
-            <key type="filename">../tiles/ground/4 down-left-diag-1-1.png</key>
-            <key type="filename">../tiles/ground/5 down-left-diag-1-2.png</key>
-            <key type="filename">../tiles/ground/6 down-left-diag-2-1.png</key>
-            <key type="filename">../tiles/ground/7 down-left-diag-2-2.png</key>
-            <key type="filename">../tiles/ground/8 down-right-diag-1-1.png</key>
-            <key type="filename">../tiles/ground/9 down-right-diag-1-2.png</key>
+            <key type="filename">tiles/decoration/00 floor1.png</key>
+            <key type="filename">tiles/decoration/01 floor2.png</key>
+            <key type="filename">tiles/decoration/02 floor3_1.png</key>
+            <key type="filename">tiles/decoration/03 floor3_2.png</key>
+            <key type="filename">tiles/decoration/04 floor3_3.png</key>
+            <key type="filename">tiles/decoration/05 floor3_4.png</key>
+            <key type="filename">tiles/decoration/06 floor4.png</key>
+            <key type="filename">tiles/decoration/07 floor5.png</key>
+            <key type="filename">tiles/decoration/08 floor6.png</key>
+            <key type="filename">tiles/decoration/09 lilypad-0.png</key>
+            <key type="filename">tiles/decoration/10 lilypad-1.png</key>
+            <key type="filename">tiles/decoration/11 panel0_0.png</key>
+            <key type="filename">tiles/decoration/12 panel0_1.png</key>
+            <key type="filename">tiles/decoration/13 panel0_2.png</key>
+            <key type="filename">tiles/decoration/14 panel0_3.png</key>
+            <key type="filename">tiles/decoration/15 water-grass-0.png</key>
+            <key type="filename">tiles/decoration/16 water-grass-1.png</key>
+            <key type="filename">tiles/decoration/17 water-grass-2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -237,35 +226,24 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>../tiles/ground/0 down-1-1.png</filename>
-            <filename>../tiles/ground/1 down-1-2.png</filename>
-            <filename>../tiles/ground/2 down-2-1.png</filename>
-            <filename>../tiles/ground/3 down-2-2.png</filename>
-            <filename>../tiles/ground/4 down-left-diag-1-1.png</filename>
-            <filename>../tiles/ground/5 down-left-diag-1-2.png</filename>
-            <filename>../tiles/ground/6 down-left-diag-2-1.png</filename>
-            <filename>../tiles/ground/7 down-left-diag-2-2.png</filename>
-            <filename>../tiles/ground/8 down-right-diag-1-1.png</filename>
-            <filename>../tiles/ground/9 down-right-diag-1-2.png</filename>
-            <filename>../tiles/ground/10 down-right-diag-2-1.png</filename>
-            <filename>../tiles/ground/11 down-right-diag-2-2.png</filename>
-            <filename>../tiles/ground/12 down-right-dot.png</filename>
-            <filename>../tiles/ground/13 down-left-dot.png</filename>
-            <filename>../tiles/ground/14 down-right-corner.png</filename>
-            <filename>../tiles/ground/15 down-left-corner.png</filename>
-            <filename>../tiles/ground/16 right-1.png</filename>
-            <filename>../tiles/ground/17 right-2.png</filename>
-            <filename>../tiles/ground/18 up-1.png</filename>
-            <filename>../tiles/ground/19 up-2.png</filename>
-            <filename>../tiles/ground/20 up-right-diag.png</filename>
-            <filename>../tiles/ground/21 up-left-diag.png</filename>
-            <filename>../tiles/ground/22 up-right-corner.png</filename>
-            <filename>../tiles/ground/23 up-left-corner.png</filename>
-            <filename>../tiles/ground/24 up-right-dot.png</filename>
-            <filename>../tiles/ground/25 up-left-dot.png</filename>
-            <filename>../tiles/ground/26 left-1.png</filename>
-            <filename>../tiles/ground/27 left-2.png</filename>
-            <filename>../tiles/ground/28 middle.png</filename>
+            <filename>tiles/decoration/00 floor1.png</filename>
+            <filename>tiles/decoration/01 floor2.png</filename>
+            <filename>tiles/decoration/02 floor3_1.png</filename>
+            <filename>tiles/decoration/03 floor3_2.png</filename>
+            <filename>tiles/decoration/04 floor3_3.png</filename>
+            <filename>tiles/decoration/05 floor3_4.png</filename>
+            <filename>tiles/decoration/06 floor4.png</filename>
+            <filename>tiles/decoration/07 floor5.png</filename>
+            <filename>tiles/decoration/08 floor6.png</filename>
+            <filename>tiles/decoration/09 lilypad-0.png</filename>
+            <filename>tiles/decoration/10 lilypad-1.png</filename>
+            <filename>tiles/decoration/11 panel0_0.png</filename>
+            <filename>tiles/decoration/12 panel0_1.png</filename>
+            <filename>tiles/decoration/13 panel0_2.png</filename>
+            <filename>tiles/decoration/14 panel0_3.png</filename>
+            <filename>tiles/decoration/15 water-grass-0.png</filename>
+            <filename>tiles/decoration/16 water-grass-1.png</filename>
+            <filename>tiles/decoration/17 water-grass-2.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

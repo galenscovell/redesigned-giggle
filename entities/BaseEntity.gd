@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-export(float) var default_speed
+export(float) var default_speed = 1
 
 var can_move = true
 var moving = false
