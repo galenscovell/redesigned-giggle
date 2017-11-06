@@ -8,9 +8,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 12, 8 )
 
-[node name="Player" type="Node2D"]
-
-[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+[node name="PlayerBody" type="KinematicBody2D"]
 
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
@@ -18,11 +16,11 @@ shapes/0/transform = Matrix32( 0.666667, 0, 0, 1.13636, 4.76837e-07, 5.5 )
 shapes/0/trigger = false
 collision/layers = 1
 collision/mask = 1
-collision/margin = 0.08
+collision/margin = 0.05
 script/script = ExtResource( 1 )
 default_speed = 1.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
 transform/pos = Vector2( 4.76837e-07, 5.5 )
 transform/scale = Vector2( 0.666667, 1.13636 )
@@ -30,29 +28,9 @@ shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
-[node name="Sprite" type="Sprite" parent="KinematicBody2D"]
+[node name="Sprite" type="Sprite" parent="."]
 
 transform/scale = Vector2( 0.5, 1 )
 texture = ExtResource( 2 )
-
-[node name="Camera2D" type="Camera2D" parent="KinematicBody2D"]
-
-transform/pos = Vector2( -9.53674e-07, 1.43051e-06 )
-anchor_mode = 1
-rotating = false
-current = true
-zoom = Vector2( 1, 1 )
-limit/left = -10000
-limit/top = -10000
-limit/right = 10000
-limit/bottom = 10000
-drag_margin/h_enabled = true
-drag_margin/v_enabled = true
-smoothing/enable = true
-smoothing/speed = 6.0
-drag_margin/left = 0.05
-drag_margin/top = 0.05
-drag_margin/right = 0.05
-drag_margin/bottom = 0.05
 
 

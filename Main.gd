@@ -17,10 +17,7 @@ func _ready():
 	_load_screen("game")
 
 func _input(event):
-	if event.is_action("game_quit"):
-		_load_screen("main_menu")
-	elif event.is_action("display_debug") && event.is_pressed():
-		fps.set_hidden(!fps.is_hidden())
+	return
 	
 func _process(delta):
 	fps.set_text("FPS: %d" % Performance.get_monitor(Performance.TIME_FPS))

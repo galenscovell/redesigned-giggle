@@ -20,6 +20,7 @@ func _ready():
 func _setup():
     current_speed = default_speed
     set_fixed_process(true)
+    set_process(true)
 
 
 ##############
@@ -28,7 +29,7 @@ func _setup():
 func _fixed_process(delta):
     if can_move:
         # Entity is allowed to move
-        if _is_moving():
+        if is_moving():
             # If moving, set direction moved in
             _set_facing_direction(next_velocity)
             moving = true
@@ -41,12 +42,25 @@ func _fixed_process(delta):
 
     # Set new body velocity directly based on nextVelocity
     move(next_velocity.normalized() * current_speed)
+
+func _process(delta):
+    # Check if entity near viewport, otherwise do nothing
+
+    if is_colliding():
+        print("Collision!")
+    return
     
 
 ##############
 #    Get     #
 ##############
-func _is_moving():
+func get_speed():
+    return current_speed
+
+func get_next_velocity():
+    return next_velocity
+
+func is_moving():
     return zero_vector.distance_to(next_velocity) > 0.1
 
 

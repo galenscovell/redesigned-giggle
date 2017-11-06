@@ -2,6 +2,7 @@ extends "BaseEntity.gd"
 
 var input_enabled = true
 
+# signal move
 
 ##############
 #    Init    #
@@ -19,6 +20,9 @@ func _fixed_process(delta):
 
 	if input_enabled:
 		_default_update()
+
+	# if moving:
+	# 	emit_signal("move")
 
 
 ##############
