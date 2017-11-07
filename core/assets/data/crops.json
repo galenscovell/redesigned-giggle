@@ -1,0 +1,9 @@
+{
+    "crop": {
+        "season": "spring",
+        "daysToGrow": 7,
+        "seedCost": 100,
+        "sellValue": 200,
+        "nutrition": 5
+    }
+}
