@@ -1,4 +1,4 @@
-package galenscovell.sandbox.processing
+package galenscovell.sandbox.processing.input
 
 import com.badlogic.gdx.controllers._
 import com.badlogic.gdx.math.Vector2

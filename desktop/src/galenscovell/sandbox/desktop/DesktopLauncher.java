@@ -3,7 +3,7 @@ package galenscovell.sandbox.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import galenscovell.sandbox.Program;
-import galenscovell.sandbox.util.Constants;
+import galenscovell.sandbox.singletons.Constants;
 
 
 public class DesktopLauncher {

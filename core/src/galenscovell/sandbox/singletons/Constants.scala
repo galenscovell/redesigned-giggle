@@ -1,5 +1,4 @@
-package galenscovell.sandbox.util
-
+package galenscovell.sandbox.singletons
 
 object Constants {
 

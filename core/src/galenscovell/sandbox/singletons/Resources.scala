@@ -1,4 +1,4 @@
-package galenscovell.sandbox.util
+package galenscovell.sandbox.singletons
 
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.assets.loaders.FileHandleResolver

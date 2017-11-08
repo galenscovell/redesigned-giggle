@@ -4,8 +4,8 @@ import com.badlogic.ashley.core._
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.physics.box2d._
 import galenscovell.sandbox.ecs.component._
-import galenscovell.sandbox.ecs.system.{CollisionSystem, PlayerLocatorSystem, PlayerSystem, RenderSystem}
-import galenscovell.sandbox.processing.ControllerHandler
+import galenscovell.sandbox.ecs.system.{CollisionSystem, PlayerSystem, RenderSystem}
+import galenscovell.sandbox.processing.input.ControllerHandler
 import galenscovell.sandbox.ui.screens.GameScreen
 
 
@@ -43,14 +43,6 @@ class EntityManager(entitySpriteBatch: SpriteBatch,
       ).get(), world
     )
 
-    // Lets other entities know where the player is currently located
-    val playerLocatorSystem: PlayerLocatorSystem = new PlayerLocatorSystem(
-      Family.all(
-        classOf[BodyComponent],
-        classOf[PlayerLocatorComponent]
-      ).get()
-    )
-
     // Handles player controls
     val playerSystem: PlayerSystem = new PlayerSystem(
       Family.all(
@@ -71,7 +63,6 @@ class EntityManager(entitySpriteBatch: SpriteBatch,
     )
 
     ecsEngine.addSystem(collisionSystem)
-    ecsEngine.addSystem(playerLocatorSystem)
     ecsEngine.addSystem(playerSystem)
     ecsEngine.addSystem(renderSystem)
   }

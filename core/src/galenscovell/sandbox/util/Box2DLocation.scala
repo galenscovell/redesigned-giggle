@@ -1,7 +1,8 @@
-package galenscovell.sandbox.util.Box2D
+package galenscovell.sandbox.util
 
 import com.badlogic.gdx.ai.utils.Location
 import com.badlogic.gdx.math.Vector2
+import galenscovell.sandbox.singletons.Box2DSteeringUtils
 
 
 class Box2DLocation(position: Vector2) extends Location[Vector2] {
@@ -12,13 +13,9 @@ class Box2DLocation(position: Vector2) extends Location[Vector2] {
   }
 
 
-  override def getPosition: Vector2 = {
-    position
-  }
+  override def getPosition: Vector2 = position
 
-  override def getOrientation: Float = {
-    orientation
-  }
+  override def getOrientation: Float = orientation
 
   override def setOrientation(orientation: Float): Unit = {
     this.orientation = orientation
@@ -31,7 +28,5 @@ class Box2DLocation(position: Vector2) extends Location[Vector2] {
     Box2DSteeringUtils.angleToVector(outVector, angle)
   }
 
-  override def newLocation(): Location[Vector2] = {
-    new Box2DLocation
-  }
+  override def newLocation(): Location[Vector2] = new Box2DLocation
 }

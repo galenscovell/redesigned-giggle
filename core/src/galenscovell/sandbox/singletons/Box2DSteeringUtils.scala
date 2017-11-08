@@ -1,4 +1,4 @@
-package galenscovell.sandbox.util.Box2D
+package galenscovell.sandbox.singletons
 
 import com.badlogic.gdx.math.Vector2
 

@@ -4,7 +4,8 @@ import com.badlogic.gdx.ai.steer._
 import com.badlogic.gdx.ai.utils.Location
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
-import galenscovell.sandbox.util.Box2D.{Box2DLocation, Box2DSteeringUtils}
+import galenscovell.sandbox.singletons.Box2DSteeringUtils
+import galenscovell.sandbox.util.Box2DLocation
 
 
 class BaseSteerable(body: Body,

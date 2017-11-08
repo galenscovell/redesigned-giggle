@@ -3,8 +3,8 @@ package galenscovell.sandbox.ecs
 import com.badlogic.ashley.core.{Engine, Entity}
 import com.badlogic.gdx.physics.box2d.World
 import galenscovell.sandbox.ecs.component._
-import galenscovell.sandbox.ecs.component.collectibles.GatherableComponent
-import galenscovell.sandbox.util.{Constants, DataParser}
+import galenscovell.sandbox.singletons.Constants
+import galenscovell.sandbox.util.DataParser
 
 
 class EntityCreator(engine: Engine,
@@ -36,7 +36,6 @@ class EntityCreator(engine: Engine,
     )
 
     entity.add(bodyComponent)
-    entity.add(new GatherableComponent)
     entity.add(new RenderableComponent)
     entity.add(new SizeComponent(Constants.TILE_SIZE, Constants.TILE_SIZE))
     entity.add(new SpriteComponent("gatherable"))

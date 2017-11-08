@@ -1,8 +1,8 @@
-package galenscovell.sandbox.processing
+package galenscovell.sandbox.processing.input
 
+import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.Input.Keys
 
 
 class KeyboardAndMouseHandler extends InputProcessor {

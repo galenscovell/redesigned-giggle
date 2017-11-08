@@ -3,7 +3,6 @@ package galenscovell.sandbox.util
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.utils.{JsonReader, JsonValue}
-import galenscovell.sandbox.ecs.component.collectibles.{NutritionComponent, SellableComponent}
 
 
 class DataParser {
@@ -27,9 +26,6 @@ class DataParser {
   def parseGatherable(name: String, e: Entity): Entity = {
     val reader: JsonValue = new JsonReader().parse(Gdx.files.internal(gatherableSource))
     val json: JsonValue = reader.get(name)
-
-    e.add(new SellableComponent(json.getInt("sellValue")))
-    e.add(new NutritionComponent(json.getInt("nutrition")))
 
     e
   }

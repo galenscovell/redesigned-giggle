@@ -13,8 +13,8 @@ import galenscovell.sandbox.Program
 import galenscovell.sandbox.ecs.component.BodyComponent
 import galenscovell.sandbox.ecs.{EntityCreator, EntityManager}
 import galenscovell.sandbox.environment.Physics
-import galenscovell.sandbox.processing.ControllerHandler
-import galenscovell.sandbox.util.Constants
+import galenscovell.sandbox.processing.input.ControllerHandler
+import galenscovell.sandbox.singletons.Constants
 
 
 class GameScreen(root: Program) extends AbstractScreen(root) {

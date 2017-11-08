@@ -1,4 +1,4 @@
-package galenscovell.sandbox.util.Box2D
+package galenscovell.sandbox.util
 
 import com.badlogic.gdx.ai.utils._
 import com.badlogic.gdx.math.Vector2
@@ -35,6 +35,7 @@ class Box2DRaycastCollisionDetector(world: World) extends RaycastCollisionDetect
       if (outputCollision != null) {
         outputCollision.set(point, normal)
       }
+
       collided = true
       fraction
     }

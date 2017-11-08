@@ -1,6 +1,6 @@
-package galenscovell.sandbox.util
+package galenscovell.sandbox.enums
 
-object CropTypes extends Enumeration {
+object Crop extends Enumeration {
   val Cabbage,
   Turnip,
   Potato,

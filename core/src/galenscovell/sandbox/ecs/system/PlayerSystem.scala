@@ -4,8 +4,8 @@ import com.badlogic.ashley.core._
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.Vector2
 import galenscovell.sandbox.ecs.component.BodyComponent
-import galenscovell.sandbox.processing.ControllerHandler
-import galenscovell.sandbox.util.Constants
+import galenscovell.sandbox.processing.input.ControllerHandler
+import galenscovell.sandbox.singletons.Constants
 
 
 class PlayerSystem(family: Family,

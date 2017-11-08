@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.{Gdx, Screen}
 import galenscovell.sandbox.Program
-import galenscovell.sandbox.util.Constants
+import galenscovell.sandbox.singletons.Constants
 
 
 class AbstractScreen(root: Program) extends Screen {

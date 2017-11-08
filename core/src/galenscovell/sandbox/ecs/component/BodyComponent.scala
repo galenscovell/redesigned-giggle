@@ -3,7 +3,7 @@ package galenscovell.sandbox.ecs.component
 import com.badlogic.ashley.core.{Component, Entity}
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType
 import com.badlogic.gdx.physics.box2d._
-import galenscovell.sandbox.util.Constants
+import galenscovell.sandbox.singletons.Constants
 
 
 class BodyComponent(entity: Entity,
