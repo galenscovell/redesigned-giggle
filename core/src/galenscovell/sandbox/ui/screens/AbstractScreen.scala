@@ -4,35 +4,38 @@ import com.badlogic.gdx.graphics.{GL20, OrthographicCamera}
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.{Gdx, Screen}
+
 import galenscovell.sandbox.Program
 import galenscovell.sandbox.singletons.Constants
 
 
 class AbstractScreen(root: Program) extends Screen {
-  protected val camera: OrthographicCamera = new OrthographicCamera(Gdx.graphics.getWidth, Gdx.graphics.getHeight)
-  protected val viewport: FitViewport = new FitViewport(Constants.UI_X, Constants.UI_Y, camera)
-  protected var stage: Stage = _
+  protected val interfaceCamera: OrthographicCamera =
+    new OrthographicCamera(Gdx.graphics.getWidth, Gdx.graphics.getHeight)
+  protected val interfaceViewport: FitViewport =
+    new FitViewport(Constants.UI_X, Constants.UI_Y, interfaceCamera)
+  protected var interfaceStage: Stage = _
 
 
   protected def create(): Unit = {
-    stage = new Stage(viewport, root.uiSpriteBatch)
+    interfaceStage = new Stage(interfaceViewport, root.interfaceSpriteBatch)
   }
 
   override def render(delta: Float): Unit = {
     Gdx.gl.glClearColor(0, 0, 0, 1)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-    stage.act(delta)
-    stage.draw()
+    interfaceStage.act(delta)
+    interfaceStage.draw()
   }
 
   override def show(): Unit = {
     create()
-    Gdx.input.setInputProcessor(stage)
+    Gdx.input.setInputProcessor(interfaceStage)
   }
 
   override def resize(width: Int, height: Int): Unit = {
-    if (stage != null) {
-      stage.getViewport.update(width, height, true)
+    if (interfaceStage != null) {
+      interfaceStage.getViewport.update(width, height, true)
     }
   }
 
@@ -41,8 +44,8 @@ class AbstractScreen(root: Program) extends Screen {
   }
 
   override def dispose(): Unit = {
-    if (stage != null) {
-      stage.dispose()
+    if (interfaceStage != null) {
+      interfaceStage.dispose()
     }
   }
 

@@ -7,13 +7,13 @@ import galenscovell.sandbox.ui.screens.{GameScreen, LoadScreen}
 
 
 class Program extends Game {
-  var uiSpriteBatch: SpriteBatch = _
+  var interfaceSpriteBatch: SpriteBatch = _
   var loadScreen: LoadScreen = _
   var gameScreen: GameScreen = _
 
 
   def create(): Unit =  {
-    uiSpriteBatch = new SpriteBatch
+    interfaceSpriteBatch = new SpriteBatch
     loadScreen = new LoadScreen(this)
     setScreen(loadScreen)
   }

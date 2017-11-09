@@ -6,13 +6,13 @@ import com.badlogic.gdx.physics.box2d._
 import galenscovell.sandbox.ecs.component._
 import galenscovell.sandbox.ecs.system.{CollisionSystem, PlayerSystem, RenderSystem}
 import galenscovell.sandbox.processing.input.ControllerHandler
-import galenscovell.sandbox.ui.screens.GameScreen
+import galenscovell.sandbox.ui.component.EntityStage
 
 
 class EntityManager(entitySpriteBatch: SpriteBatch,
                     controllerHandler: ControllerHandler,
                     world: World,
-                    gameScreen: GameScreen) {
+                    entityStage: EntityStage) {
   private val ecsEngine: Engine = new Engine
 
   setupSystems()
@@ -59,7 +59,7 @@ class EntityManager(entitySpriteBatch: SpriteBatch,
         classOf[RenderableComponent],
         classOf[SizeComponent],
         classOf[SpriteComponent]
-      ).get(), entitySpriteBatch, gameScreen
+      ).get(), entitySpriteBatch, entityStage
     )
 
     ecsEngine.addSystem(collisionSystem)

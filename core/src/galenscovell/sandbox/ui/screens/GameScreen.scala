@@ -1,40 +1,29 @@
 package galenscovell.sandbox.ui.screens
 
 import aurelienribon.tweenengine.TweenManager
-import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.{Gdx, InputMultiplexer}
 import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.{GL20, OrthographicCamera}
-import com.badlogic.gdx.math.Vector3
-import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.ui.{Label, Table}
+import com.badlogic.gdx.utils.Align
+import com.badlogic.gdx.utils.viewport.FitViewport
 import galenscovell.sandbox.Program
-import galenscovell.sandbox.ecs.component.BodyComponent
-import galenscovell.sandbox.ecs.{EntityCreator, EntityManager}
-import galenscovell.sandbox.environment.Physics
 import galenscovell.sandbox.processing.input.ControllerHandler
-import galenscovell.sandbox.singletons.Constants
+import galenscovell.sandbox.singletons.{Constants, Resources}
+import galenscovell.sandbox.ui.component.EntityStage
 
 
 class GameScreen(root: Program) extends AbstractScreen(root) {
-  private val entitySpriteBatch: SpriteBatch = new SpriteBatch()
-  private val worldCamera: OrthographicCamera = new OrthographicCamera(Constants.SCREEN_X, Constants.SCREEN_Y)
-
+  private var entityStage: EntityStage = _
   private val tweenManager: TweenManager = new TweenManager
+
+  private val input: InputMultiplexer = new InputMultiplexer
   private val controllerHandler: ControllerHandler = new ControllerHandler
-  private val physics: Physics = new Physics
-  private val entityManager: EntityManager = new EntityManager(entitySpriteBatch, controllerHandler, physics.getWorld, this)
+  private var paused: Boolean = false
 
-  // Box2d has a limit on velocity of 2.0 units per step
-  // The max speed is 120m/s at 60fps
-  private val timeStep: Float = 1 / 120.0f
-  private var accumulator: Float = 0
-
-  // For camera
-  private val lerpPos: Vector3 = new Vector3(0, 0, 0)
-  private var minCamX, minCamY, maxCamX, maxCamY: Float = 0f
-  private var playerBody: Body = _
+  private val fpsLabel: Label = new Label("FPS", Resources.labelMediumStyle)
 
   create()
 
@@ -43,53 +32,34 @@ class GameScreen(root: Program) extends AbstractScreen(root) {
     *       Init      *
     ********************/
   override def create(): Unit = {
-    stage = new Stage(viewport, root.uiSpriteBatch)
+    interfaceStage = new Stage(interfaceViewport, root.interfaceSpriteBatch)
 
-    val entityCreator: EntityCreator = new EntityCreator(entityManager.getEngine, physics.getWorld)
+    constructHud()
 
-    // Establish player entity
-    val player: Entity = entityCreator.makePlayer(0, 0)
-    playerBody = player.getComponent(classOf[BodyComponent]).body
-
-    entityCreator.makeGatherable(-1, 3)
-    entityCreator.makeGatherable(0, 3)
-    entityCreator.makeGatherable(1, 3)
-    entityCreator.makeGatherable(2, 3)
-
-    // Start camera centered on player
-    worldCamera.position.set(playerBody.getPosition.x, playerBody.getPosition.y, 0)
+    val entityCamera: OrthographicCamera = new OrthographicCamera(Constants.SCREEN_X, Constants.SCREEN_Y)
+    val entityViewport: FitViewport = new FitViewport(Constants.SCREEN_X, Constants.SCREEN_Y, entityCamera)
+    entityStage = new EntityStage(this, entityViewport, entityCamera, new SpriteBatch(), controllerHandler)
   }
 
+  private def constructHud(): Unit = {
+    val mainTable: Table = new Table
+    mainTable.setFillParent(true)
+    // mainTable.setDebug(true, true)
 
-  /**********************
-    *      Camera       *
-    **********************/
-  private def updateCamera(): Unit = {
-    // Find camera upper left coordinates
-    minCamX = worldCamera.position.x - (worldCamera.viewportWidth / 2) * worldCamera.zoom
-    minCamY = worldCamera.position.y - (worldCamera.viewportHeight / 2) * worldCamera.zoom
+    val fpsTable: Table = new Table
+    fpsLabel.setAlignment(Align.left, Align.left)
+    fpsTable.add(fpsLabel).expand.fill.left.padLeft(12).padTop(8)
 
-    // Find camera lower right coordinates
-    maxCamX = minCamX + worldCamera.viewportWidth * worldCamera.zoom
-    maxCamY = minCamY + worldCamera.viewportHeight * worldCamera.zoom
+    val versionTable: Table = new Table
+    val versionLabel: Label = new Label("v0.1 Alpha", Resources.labelMediumStyle)
+    versionLabel.setAlignment(Align.right, Align.right)
+    versionTable.add(versionLabel).expand.fill.right.padRight(12).padBottom(8)
 
-    worldCamera.update()
-  }
+    mainTable.add(fpsTable).width(Constants.EXACT_X).height(32).top.expand.fill
+    mainTable.row
+    mainTable.add(versionTable).width(Constants.EXACT_X).height(32).bottom.expand.fill
 
-  private def centerCameraOnPlayer(): Unit = {
-    lerpPos.x = playerBody.getPosition.x
-    lerpPos.y = playerBody.getPosition.y
-
-    worldCamera.position.lerp(lerpPos, 0.05f)
-  }
-
-  def inCamera(x: Float, y: Float): Boolean = {
-    // Determines if a point falls within the camera
-    // (+/- medium entity size to reduce chance of pop-in)
-    (x + Constants.MEDIUM_ENTITY_SIZE) >= minCamX &&
-      (y + Constants.MEDIUM_ENTITY_SIZE) >= minCamY &&
-      (x - Constants.MEDIUM_ENTITY_SIZE) <= maxCamX &&
-      (y - Constants.MEDIUM_ENTITY_SIZE) <= maxCamY
+    interfaceStage.addActor(mainTable)
   }
 
 
@@ -100,32 +70,21 @@ class GameScreen(root: Program) extends AbstractScreen(root) {
     Gdx.gl.glClearColor(0.2f, 0.29f, 0.37f, 1)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
-    // Frame rate and physics time step
-    val frameTime: Float = Math.min(delta, 0.25f)
-    accumulator += frameTime
-    while (accumulator > timeStep) {
-      physics.update(timeStep)
-      accumulator -= timeStep
+    entityStage.update(delta)
+    if (!paused) {
+      entityStage.render(delta)
     }
 
-    // Camera operations
-    updateCamera()
-    centerCameraOnPlayer()
-    entitySpriteBatch.setProjectionMatrix(worldCamera.combined)
+    val fps = Gdx.graphics.getFramesPerSecond
+    fpsLabel.setText(s"FPS: $fps")
+    interfaceStage.act(delta)
+    interfaceStage.draw()
 
-    // ECS rendering
-    entitySpriteBatch.begin()
-    entityManager.update(delta)
-    entitySpriteBatch.end()
-
-    // Tween operations
     tweenManager.update(delta)
-
-    physics.debugRender(worldCamera.combined)
   }
 
   override def show(): Unit = {
-    Gdx.input.setInputProcessor(stage)
+    Gdx.input.setInputProcessor(interfaceStage)
     Controllers.clearListeners()
     Controllers.addListener(controllerHandler)
   }
@@ -136,6 +95,6 @@ class GameScreen(root: Program) extends AbstractScreen(root) {
 
   override def dispose(): Unit = {
     super.dispose()
-    physics.dispose()
+    entityStage.dispose()
   }
 }

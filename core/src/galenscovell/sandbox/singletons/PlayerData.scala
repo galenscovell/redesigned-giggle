@@ -26,5 +26,5 @@ object PlayerData {
     prefs.clear()
   }
 
-  def getPrefs: Preferences = prefs
+  def get: Preferences = prefs
 }
