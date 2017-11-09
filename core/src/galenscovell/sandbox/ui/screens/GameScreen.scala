@@ -1,6 +1,7 @@
 package galenscovell.sandbox.ui.screens
 
 import aurelienribon.tweenengine.TweenManager
+
 import com.badlogic.gdx.{Gdx, InputMultiplexer}
 import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -9,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.{Label, Table}
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.viewport.FitViewport
+
 import galenscovell.sandbox.Program
 import galenscovell.sandbox.processing.input.ControllerHandler
 import galenscovell.sandbox.singletons.{Constants, Resources}
@@ -33,7 +35,6 @@ class GameScreen(root: Program) extends AbstractScreen(root) {
     ********************/
   override def create(): Unit = {
     interfaceStage = new Stage(interfaceViewport, root.interfaceSpriteBatch)
-
     constructHud()
 
     val entityCamera: OrthographicCamera = new OrthographicCamera(Constants.SCREEN_X, Constants.SCREEN_Y)
@@ -62,6 +63,11 @@ class GameScreen(root: Program) extends AbstractScreen(root) {
     interfaceStage.addActor(mainTable)
   }
 
+  def updateFpsCounter(): Unit = {
+    val fps = Gdx.graphics.getFramesPerSecond
+    fpsLabel.setText(s"$fps FPS")
+  }
+
 
   /**********************
     * Screen Operations *
@@ -70,13 +76,13 @@ class GameScreen(root: Program) extends AbstractScreen(root) {
     Gdx.gl.glClearColor(0.2f, 0.29f, 0.37f, 1)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
+    // Update EntityStage
     entityStage.update(delta)
     if (!paused) {
       entityStage.render(delta)
     }
 
-    val fps = Gdx.graphics.getFramesPerSecond
-    fpsLabel.setText(s"FPS: $fps")
+    // Update InterfaceStage
     interfaceStage.act(delta)
     interfaceStage.draw()
 

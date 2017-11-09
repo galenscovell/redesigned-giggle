@@ -2,6 +2,7 @@ package galenscovell.sandbox
 
 import com.badlogic.gdx.{Game, Gdx}
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+
 import galenscovell.sandbox.singletons.Resources
 import galenscovell.sandbox.ui.screens.{GameScreen, LoadScreen}
 

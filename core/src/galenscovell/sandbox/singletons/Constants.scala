@@ -1,7 +1,6 @@
 package galenscovell.sandbox.singletons
 
 object Constants {
-
   // Box2D masks
   // fixture filter category = "This is what I am"
   val WALL_CATEGORY: Short = 0x0001

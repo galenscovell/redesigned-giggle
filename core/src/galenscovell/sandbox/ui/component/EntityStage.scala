@@ -23,17 +23,15 @@ class EntityStage(val gameScreen: GameScreen,
                   val controllerHandler: ControllerHandler) extends Stage(entityViewport, entitySpriteBatch) {
 
   private val physics: Physics = new Physics
-  private val entityManager: EntityManager =
-    new EntityManager(entitySpriteBatch, controllerHandler, physics.getWorld, this)
-  private val entityCreator: EntityCreator =
-    new EntityCreator(entityManager.getEngine, physics.getWorld)
+  private val entityManager: EntityManager = new EntityManager(entitySpriteBatch, controllerHandler, physics.getWorld, this)
+  private val entityCreator: EntityCreator = new EntityCreator(entityManager.getEngine, physics.getWorld)
 
   // For camera
   private val lerpPos: Vector3 = new Vector3(0, 0, 0)
   private var minCamX, minCamY, maxCamX, maxCamY: Float = 0f
   private var playerBody: Body = _
 
-  // Box2d has a limit on velocity of 2.0 units per step
+  // Box2D has a limit on velocity of 2.0 units per step
   // The max speed is 120m/s at 60fps
   private val timeStep: Float = 1 / 120.0f
   private var accumulator: Float = 0
@@ -65,11 +63,12 @@ class EntityStage(val gameScreen: GameScreen,
   def render(delta: Float): Unit = {
     // Frame rate and physics time step
     val frameTime: Float = Math.min(delta, 0.25f)
-
     accumulator += frameTime
     while (accumulator > timeStep) {
       physics.update(timeStep)
       accumulator -= timeStep
+
+      gameScreen.updateFpsCounter()
     }
 
     // Camera operations
