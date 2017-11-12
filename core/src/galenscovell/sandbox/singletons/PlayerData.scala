@@ -1,6 +1,9 @@
 package galenscovell.sandbox.singletons
 
 import com.badlogic.gdx.{Gdx, Preferences}
+import galenscovell.sandbox.items.Item
+
+import scala.collection.mutable.ArrayBuffer
 
 
 /**
@@ -12,6 +15,7 @@ import com.badlogic.gdx.{Gdx, Preferences}
   */
 object PlayerData {
   private var prefs: Preferences = _
+  private val inventoryItems: ArrayBuffer[Item] = new ArrayBuffer[Item]()
 
 
   /**

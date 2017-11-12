@@ -8,8 +8,7 @@ import galenscovell.sandbox.processing.input.ControllerHandler
 import galenscovell.sandbox.singletons.Constants
 
 
-class PlayerSystem(family: Family,
-                   controllerHandler: ControllerHandler) extends IteratingSystem(family) {
+class PlayerSystem(family: Family, controllerHandler: ControllerHandler) extends IteratingSystem(family) {
   private val bodyMapper: ComponentMapper[BodyComponent] = ComponentMapper.getFor(classOf[BodyComponent])
 
 
