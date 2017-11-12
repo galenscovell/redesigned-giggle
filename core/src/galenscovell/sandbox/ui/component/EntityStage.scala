@@ -7,10 +7,9 @@ import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
-
 import galenscovell.sandbox.ecs.component.BodyComponent
 import galenscovell.sandbox.ecs.{EntityCreator, EntityManager}
-import galenscovell.sandbox.environment.Physics
+import galenscovell.sandbox.environment.{Physics, DateTime}
 import galenscovell.sandbox.processing.input.ControllerHandler
 import galenscovell.sandbox.singletons.Constants
 import galenscovell.sandbox.ui.screens.GameScreen
@@ -20,10 +19,12 @@ class EntityStage(val gameScreen: GameScreen,
                   val entityViewport: FitViewport,
                   val entityCamera: OrthographicCamera,
                   val entitySpriteBatch: SpriteBatch,
-                  val controllerHandler: ControllerHandler) extends Stage(entityViewport, entitySpriteBatch) {
+                  val controllerHandler: ControllerHandler,
+                  val dateTime: DateTime) extends Stage(entityViewport, entitySpriteBatch) {
 
   private val physics: Physics = new Physics
-  private val entityManager: EntityManager = new EntityManager(entitySpriteBatch, controllerHandler, physics.getWorld, this)
+  private val entityManager: EntityManager = new EntityManager(
+    entitySpriteBatch, controllerHandler, physics.getWorld, dateTime, this)
   private val entityCreator: EntityCreator = new EntityCreator(entityManager.getEngine, physics.getWorld)
 
   // For camera
