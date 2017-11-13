@@ -79,13 +79,9 @@ class BaseSteerable(body: Body,
 
 
 
-  override def newLocation(): Location[Vector2] = {
-    new Box2DLocation
-  }
+  override def newLocation(): Location[Vector2] = new Box2DLocation
 
-  override def getZeroLinearSpeedThreshold: Float = {
-    zeroLinearSpeedThreshold
-  }
+  override def getZeroLinearSpeedThreshold: Float = zeroLinearSpeedThreshold
 
   override def setZeroLinearSpeedThreshold(value: Float): Unit = {
     this.zeroLinearSpeedThreshold = value

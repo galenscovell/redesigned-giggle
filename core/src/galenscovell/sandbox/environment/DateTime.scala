@@ -1,5 +1,6 @@
 package galenscovell.sandbox.environment
 
+import com.badlogic.gdx.scenes.scene2d.ui.Label
 import galenscovell.sandbox.enums.Season
 
 
@@ -12,6 +13,9 @@ class DateTime {
   private val minMinute: Int = 0
   private val maxMinute: Int = 45
 
+  private val dateTimeStep: Float = 6f
+  private var dateTimeAccumulator: Float = 0
+
   private var season: Season.Value = Season.Spring
   private var day: Int = minDay
   private var hour: Int = minHour
@@ -21,6 +25,18 @@ class DateTime {
   /********************
     *      Update     *
     ********************/
+  def update(delta: Float, dateLabel: Label, timeLabel: Label): Unit = {
+    val frameTime: Float = Math.min(delta, 0.25f)
+    dateTimeAccumulator += frameTime
+    while (dateTimeAccumulator > dateTimeStep) {
+      dateTimeAccumulator -= dateTimeStep
+
+      updateClock()
+      timeLabel.setText(getTimeStamp)
+      dateLabel.setText(getDateStamp)
+    }
+  }
+
   def updateClock(): Unit = {
     if (hour == maxHour && minute == maxMinute) {
       updateDate()

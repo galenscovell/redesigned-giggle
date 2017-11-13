@@ -1,7 +1,6 @@
 package galenscovell.sandbox.processing.pathfinding
 
 import com.badlogic.gdx.math.Vector2
-
 import scala.collection.mutable.ArrayBuffer
 
 

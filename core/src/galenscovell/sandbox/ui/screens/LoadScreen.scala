@@ -27,7 +27,7 @@ class LoadScreen(root: Program) extends AbstractScreen(root) {
 
     loadingMain.add(loadingTable).width(Constants.UI_X).height(Constants.UI_Y).expand.fill
 
-    interfaceStage.addActor(loadingMain)
+    uiStage.addActor(loadingMain)
   }
 
 
@@ -39,7 +39,7 @@ class LoadScreen(root: Program) extends AbstractScreen(root) {
 
     if (Resources.assetManager.update) {
       Resources.done()
-      interfaceStage.getRoot.addAction(
+      uiStage.getRoot.addAction(
         Actions.sequence(
           Actions.delay(0.25f),
           Actions.parallel(
@@ -56,8 +56,8 @@ class LoadScreen(root: Program) extends AbstractScreen(root) {
   override def show(): Unit = {
     Resources.load()
     create()
-    interfaceStage.getRoot.getColor.a = 0
-    interfaceStage.getRoot.addAction(
+    uiStage.getRoot.getColor.a = 0
+    uiStage.getRoot.addAction(
       Actions.sequence(
         Actions.moveTo(-Constants.UI_X * 1.4f, 0),
         Actions.parallel(

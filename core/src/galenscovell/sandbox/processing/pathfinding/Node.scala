@@ -4,7 +4,6 @@ import com.badlogic.gdx.ai.utils.Location
 import com.badlogic.gdx.math.Vector2
 import galenscovell.sandbox.singletons.Box2DSteeringUtils
 import galenscovell.sandbox.util.Box2DLocation
-
 import scala.collection.mutable.ArrayBuffer
 
 
@@ -74,6 +73,7 @@ class Node(val x: Int, val y: Int) extends Location[Vector2] {
   override def getPosition: Vector2 = position
 
   override def getOrientation: Float = orientation
+
   override def setOrientation(orientation: Float): Unit = {
     this.orientation = orientation
   }
@@ -85,7 +85,5 @@ class Node(val x: Int, val y: Int) extends Location[Vector2] {
     Box2DSteeringUtils.angleToVector(outVector, angle)
   }
 
-  override def newLocation(): Location[Vector2] = {
-    new Box2DLocation
-  }
+  override def newLocation(): Location[Vector2] = new Box2DLocation
 }

@@ -19,12 +19,9 @@ import galenscovell.sandbox.ui.component.EntityStage
 class GameScreen(root: Program) extends AbstractScreen(root) {
   private var entityStage: EntityStage = _
   private val tweenManager: TweenManager = new TweenManager
-
   private val dateTime: DateTime = new DateTime
-  private val dateTimeStep: Float = 6f
-  private var dateTimeAccumulator: Float = 0
 
-  private val input: InputMultiplexer = new InputMultiplexer
+  private val inputMultiplexer: InputMultiplexer = new InputMultiplexer
   private val controllerHandler: ControllerHandler = new ControllerHandler
   private var paused: Boolean = false
 
@@ -39,18 +36,18 @@ class GameScreen(root: Program) extends AbstractScreen(root) {
     *       Init      *
     ********************/
   override def create(): Unit = {
-    interfaceStage = new Stage(interfaceViewport, root.interfaceSpriteBatch)
-    constructHud()
+    uiStage = new Stage(uiViewport, root.uiSpriteBatch)
+    constructUi()
 
     val entityCamera: OrthographicCamera = new OrthographicCamera(Constants.SCREEN_X, Constants.SCREEN_Y)
     val entityViewport: FitViewport = new FitViewport(Constants.SCREEN_X, Constants.SCREEN_Y, entityCamera)
     entityStage = new EntityStage(this, entityViewport, entityCamera, new SpriteBatch(), controllerHandler, dateTime)
   }
 
-  private def constructHud(): Unit = {
+  private def constructUi(): Unit = {
     val mainTable: Table = new Table
     mainTable.setFillParent(true)
-    // mainTable.setDebug(true, true)
+    mainTable.setDebug(true, true)
 
     val topTable: Table = new Table
     topTable.setDebug(true, true)
@@ -59,12 +56,12 @@ class GameScreen(root: Program) extends AbstractScreen(root) {
     fpsLabel.setAlignment(Align.left, Align.left)
     dateLabel.setAlignment(Align.right, Align.right)
 
-    topTopTable.add(fpsLabel).expand.fill.left.padLeft(12).padTop(8)
-    topTopTable.add(dateLabel).expand.fill.right.padRight(12).padTop(8)
+    topTopTable.add(fpsLabel).expand.fill.left.padLeft(16)
+    topTopTable.add(dateLabel).expand.fill.right.padRight(16)
 
     val topBottomTable: Table = new Table
     timeLabel.setAlignment(Align.right, Align.right)
-    topBottomTable.add(timeLabel).expand.fill.right.padRight(12).padTop(2)
+    topBottomTable.add(timeLabel).expand.fill.right.padRight(16)
 
     topTable.add(topTopTable).expand.fill.top
     topTable.row
@@ -73,18 +70,18 @@ class GameScreen(root: Program) extends AbstractScreen(root) {
     val versionTable: Table = new Table
     val versionLabel: Label = new Label("v0.1 Alpha", Resources.labelMediumStyle)
     versionLabel.setAlignment(Align.right, Align.right)
-    versionTable.add(versionLabel).expand.fill.right.padRight(12).padBottom(8)
+    versionTable.add(versionLabel).expand.fill.right.padRight(16)
 
-    mainTable.add(topTable).width(Constants.EXACT_X).height(80).top.expand.fill
+    mainTable.add(topTable).width(Constants.EXACT_X).height(80).top.expand.fill.padTop(8)
     mainTable.row
-    mainTable.add(versionTable).width(Constants.EXACT_X).height(32).bottom.expand.fill
+    mainTable.add(versionTable).width(Constants.EXACT_X).height(32).bottom.expand.fill.padBottom(8)
 
-    interfaceStage.addActor(mainTable)
+    uiStage.addActor(mainTable)
   }
 
   def updateFpsCounter(): Unit = {
     val fps = Gdx.graphics.getFramesPerSecond
-    fpsLabel.setText(s"$fps FPS")
+    fpsLabel.setText(s"FPS: $fps")
   }
 
 
@@ -95,32 +92,21 @@ class GameScreen(root: Program) extends AbstractScreen(root) {
     Gdx.gl.glClearColor(0.2f, 0.29f, 0.37f, 1)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
-    // Update in-game datetime
-    val frameTime: Float = Math.min(delta, 0.25f)
-    dateTimeAccumulator += frameTime
-    while (dateTimeAccumulator > dateTimeStep) {
-      dateTimeAccumulator -= dateTimeStep
-
-      dateTime.updateClock()
-      timeLabel.setText(dateTime.getTimeStamp)
-      dateLabel.setText(dateTime.getDateStamp)
-    }
-
-    // Update EntityStage
-    entityStage.update(delta)
     if (!paused) {
       entityStage.render(delta)
+      entityStage.update(delta)
     }
 
-    // Update InterfaceStage
-    interfaceStage.act(delta)
-    interfaceStage.draw()
+    dateTime.update(delta, dateLabel, timeLabel)
+
+    uiStage.act(delta)
+    uiStage.draw()
 
     tweenManager.update(delta)
   }
 
   override def show(): Unit = {
-    Gdx.input.setInputProcessor(interfaceStage)
+    Gdx.input.setInputProcessor(uiStage)
     Controllers.clearListeners()
     Controllers.addListener(controllerHandler)
   }

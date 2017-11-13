@@ -1,7 +1,6 @@
 package galenscovell.sandbox.ecs
 
 import java.util.Comparator
-
 import com.badlogic.ashley.core.{ComponentMapper, Entity}
 import galenscovell.sandbox.ecs.component.BodyComponent
 
@@ -14,12 +13,8 @@ class ZComparator extends Comparator[Entity] {
     val p1: Float = bodyMapper.get(e1).body.getPosition.y
     val p2: Float = bodyMapper.get(e2).body.getPosition.y
 
-    if (p1 > p2) {
-      -1
-    } else if (p1 < p2) {
-      1
-    } else {
-      0
-    }
+    if (p1 > p2)  -1
+    else if (p1 < p2) 1
+    else  0
   }
 }

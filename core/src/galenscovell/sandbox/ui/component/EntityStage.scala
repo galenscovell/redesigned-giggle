@@ -62,24 +62,21 @@ class EntityStage(val gameScreen: GameScreen,
     *     Update      *
     ********************/
   def render(delta: Float): Unit = {
-    // Frame rate and physics time step
     val frameTime: Float = Math.min(delta, 0.25f)
     accumulator += frameTime
     while (accumulator > timeStep) {
       physics.update(timeStep)
       accumulator -= timeStep
 
+      entitySpriteBatch.begin()
+      entityManager.update(delta)
+      entitySpriteBatch.end()
+
       gameScreen.updateFpsCounter()
     }
 
-    // Camera operations
     updateCamera()
     entitySpriteBatch.setProjectionMatrix(entityCamera.combined)
-
-    // ECS
-    entitySpriteBatch.begin()
-    entityManager.update(delta)
-    entitySpriteBatch.end()
 
     physics.debugRender(entityCamera.combined)
   }
