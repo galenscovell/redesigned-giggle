@@ -14,7 +14,7 @@ object Resources {
   val assetManager: AssetManager = new AssetManager
   var atlas: TextureAtlas = _
 
-  var labelMediumStyle: LabelStyle = _
+  var labelMediumStyle, labelSmallStyle: LabelStyle = _
 
   def load(): Unit = {
     assetManager.load("atlas/atlas.atlas", classOf[TextureAtlas])
@@ -24,6 +24,7 @@ object Resources {
     val fontLoader: FreetypeFontLoader = new FreetypeFontLoader(resolver)
     assetManager.setLoader(classOf[BitmapFont], ".ttf", fontLoader)
 
+    generateFont("ui/Verdana.ttf", 16, 0, Color.WHITE, Color.BLACK, "smallFont.ttf")
     generateFont("ui/Verdana.ttf", 24, 0, Color.WHITE, Color.BLACK, "mediumFont.ttf")
   }
 
@@ -44,7 +45,12 @@ object Resources {
   /*********************************
     * Font and Resource Generation *
     ********************************/
-  private def generateFont(fontName: String, size: Int, borderWidth: Int, fontColor: Color, borderColor: Color, outName: String): Unit = {
+  private def generateFont(fontName: String,
+                           size: Int,
+                           borderWidth: Int,
+                           fontColor: Color,
+                           borderColor: Color,
+                           outName: String): Unit = {
     val params: FreetypeFontLoader.FreeTypeFontLoaderParameter = new FreetypeFontLoader.FreeTypeFontLoaderParameter
     params.fontFileName = fontName
     params.fontParameters.size = Math.ceil(size).toInt
@@ -61,6 +67,7 @@ object Resources {
   }
 
   private def loadLabelStyles(): Unit = {
+    labelSmallStyle = new LabelStyle(assetManager.get("smallFont.ttf", classOf[BitmapFont]), Color.WHITE)
     labelMediumStyle = new LabelStyle(assetManager.get("mediumFont.ttf", classOf[BitmapFont]), Color.WHITE)
   }
 

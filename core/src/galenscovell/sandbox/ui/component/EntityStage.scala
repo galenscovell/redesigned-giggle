@@ -7,9 +7,11 @@ import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
-import galenscovell.sandbox.ecs.component.BodyComponent
+import galenscovell.sandbox.ecs.component.{BodyComponent, SteeringComponent}
 import galenscovell.sandbox.ecs.{EntityCreator, EntityManager}
-import galenscovell.sandbox.environment.{Physics, DateTime}
+import galenscovell.sandbox.enums.Crop
+import galenscovell.sandbox.environment.{DateTime, Physics}
+import galenscovell.sandbox.processing.BaseSteerable
 import galenscovell.sandbox.processing.input.ControllerHandler
 import galenscovell.sandbox.singletons.Constants
 import galenscovell.sandbox.ui.screens.GameScreen
@@ -47,11 +49,12 @@ class EntityStage(val gameScreen: GameScreen,
     // Establish player entity
     val player: Entity = entityCreator.makePlayer(0, 0)
     playerBody = player.getComponent(classOf[BodyComponent]).body
+    val playerSteerable: BaseSteerable = player.getComponent(classOf[SteeringComponent]).getSteerable
 
-    entityCreator.makeGatherable(-1, 3)
-    entityCreator.makeGatherable(0, 3)
-    entityCreator.makeGatherable(1, 3)
-    entityCreator.makeGatherable(2, 3)
+    entityCreator.makeCrop(Crop.Cabbage, Constants.TILE_SIZE, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE, -1, 3)
+    entityCreator.makeCrop(Crop.Cabbage, Constants.TILE_SIZE, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE, 0, 3)
+    entityCreator.makeCrop(Crop.Cabbage, Constants.TILE_SIZE, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE, 1, 3)
+    entityCreator.makeCrop(Crop.Cabbage, Constants.TILE_SIZE, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE, 2, 3)
 
     // Start camera centered on player
     entityCamera.position.set(playerBody.getPosition.x, playerBody.getPosition.y, 0)

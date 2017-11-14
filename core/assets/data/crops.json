@@ -1,9 +1,9 @@
 {
-    "crop": {
-        "season": "spring",
-        "daysToGrow": 7,
-        "seedCost": 100,
-        "sellValue": 200,
-        "nutrition": 5
+    "Cabbage": {
+        "season": "Spring",
+        "days": 3,
+        "buyCost": 100,
+        "sellCost": 200,
+	    "sprite": "crop"
     }
 }

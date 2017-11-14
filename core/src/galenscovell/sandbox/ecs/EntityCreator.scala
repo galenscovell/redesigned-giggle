@@ -3,7 +3,9 @@ package galenscovell.sandbox.ecs
 import com.badlogic.ashley.core.{Engine, Entity}
 import com.badlogic.gdx.physics.box2d.World
 import galenscovell.sandbox.ecs.component._
+import galenscovell.sandbox.enums.Crop
 import galenscovell.sandbox.singletons.Constants
+import galenscovell.sandbox.stateMachines.{CropAgent, PlayerAgent}
 import galenscovell.sandbox.util.DataParser
 
 
@@ -13,20 +15,22 @@ class EntityCreator(engine: Engine,
 
 
   def makePlayer(posX: Float, posY: Float): Entity = {
-    val e: Entity = new Entity
+    val entity: Entity = new Entity
     val bodyComponent: BodyComponent = new BodyComponent(
-      e, world, posX, posY, Constants.MEDIUM_ENTITY_SIZE, movable=true, soft=true
+      entity, world, posX, posY, Constants.MEDIUM_ENTITY_SIZE, movable=true, soft=true
     )
 
-    e.add(bodyComponent)
-    e.add(new MovementComponent)
-    e.add(new PlayerComponent)
-    e.add(new RenderableComponent)
-    e.add(new SizeComponent(Constants.SMALL_ENTITY_SIZE, Constants.MEDIUM_ENTITY_SIZE))
-    e.add(new SpriteComponent("player"))
+    entity.add(bodyComponent)
+    entity.add(new MovementComponent)
+    entity.add(new PlayerComponent)
+    entity.add(new RenderableComponent)
+    entity.add(new SizeComponent(Constants.SMALL_ENTITY_SIZE, Constants.MEDIUM_ENTITY_SIZE))
+    entity.add(new SpriteComponent("player"))
+    entity.add(new StateComponent(PlayerAgent.DEFAULT))
+    entity.add(new SteeringComponent(bodyComponent.body, Constants.MEDIUM_ENTITY_SIZE, 10, 10))
 
-    engine.addEntity(e)
-    e
+    engine.addEntity(entity)
+    entity
   }
 
   def makeGatherable(posX: Float, posY: Float): Unit = {
@@ -45,11 +49,20 @@ class EntityCreator(engine: Engine,
     engine.addEntity(entity)
   }
 
-  def makeCrop(size: Float, posX: Float, posY: Float): Unit = {
-    val e: Entity = new Entity
+  def makeCrop(crop: Crop.Value, width: Float, height: Float, bodySize: Float, posX: Float, posY: Float): Unit = {
+    var entity: Entity = new Entity
     val bodyComponent: BodyComponent = new BodyComponent(
-      e, world, posX, posY, Constants.SMALL_ENTITY_SIZE, movable=false, soft=true
+      entity, world, posX, posY, bodySize, movable=false, soft=true
     )
+
+    entity.add(bodyComponent)
+    entity.add(new RenderableComponent)
+    entity.add(new StateComponent(CropAgent.DEFAULT))
+    entity.add(new SizeComponent(width, height))
+
+    entity = dataParser.parseCrop(crop, entity)
+
+    engine.addEntity(entity)
   }
 
   def makeCharacter(): Unit = {

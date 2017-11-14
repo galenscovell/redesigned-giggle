@@ -25,9 +25,9 @@ class GameScreen(root: Program) extends AbstractScreen(root) {
   private val controllerHandler: ControllerHandler = new ControllerHandler
   private var paused: Boolean = false
 
-  private val fpsLabel: Label = new Label("FPS", Resources.labelMediumStyle)
+  private val fpsLabel: Label = new Label("FPS", Resources.labelSmallStyle)
   private val dateLabel: Label = new Label(dateTime.getDateStamp, Resources.labelMediumStyle)
-  private val timeLabel: Label = new Label(dateTime.getTimeStamp, Resources.labelMediumStyle)
+  private val timeLabel: Label = new Label(dateTime.getTimeStamp, Resources.labelSmallStyle)
 
   create()
 
@@ -68,7 +68,7 @@ class GameScreen(root: Program) extends AbstractScreen(root) {
     topTable.add(topBottomTable).expand.fill.bottom
 
     val versionTable: Table = new Table
-    val versionLabel: Label = new Label("v0.1 Alpha", Resources.labelMediumStyle)
+    val versionLabel: Label = new Label("v0.1 Alpha", Resources.labelSmallStyle)
     versionLabel.setAlignment(Align.right, Align.right)
     versionTable.add(versionLabel).expand.fill.right.padRight(16)
 

@@ -9,9 +9,9 @@ class DateTime {
   private val maxDay: Int = 28
   private val minHour: Int = 1
   private val maxHour: Int = 23
-  private val minuteIncrement: Int = 15
+  private val minuteIncrement: Int = 10
   private val minMinute: Int = 0
-  private val maxMinute: Int = 45
+  private val maxMinute: Int = 50
 
   private val dateTimeStep: Float = 6f
   private var dateTimeAccumulator: Float = 0
