@@ -10,24 +10,22 @@ import com.badlogic.gdx.scenes.scene2d.ui.{Label, Table}
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.viewport.FitViewport
 import galenscovell.sandbox.Program
-import galenscovell.sandbox.environment.Clock
 import galenscovell.sandbox.processing.input.ControllerHandler
-import galenscovell.sandbox.singletons.{Constants, Resources}
+import galenscovell.sandbox.singletons.{Clock, Constants, Resources}
 import galenscovell.sandbox.ui.component.EntityStage
 
 
 class GameScreen(root: Program) extends AbstractScreen(root) {
   private var entityStage: EntityStage = _
   private val tweenManager: TweenManager = new TweenManager
-  private val clock: Clock = new Clock
 
   private val inputMultiplexer: InputMultiplexer = new InputMultiplexer
   private val controllerHandler: ControllerHandler = new ControllerHandler
   private var paused: Boolean = false
 
   private val fpsLabel: Label = new Label("FPS", Resources.labelSmallStyle)
-  private val dateLabel: Label = new Label(clock.getDateStamp, Resources.labelMediumStyle)
-  private val timeLabel: Label = new Label(clock.getTimeStamp, Resources.labelSmallStyle)
+  private val dateLabel: Label = new Label(Clock.getDateStamp, Resources.labelMediumStyle)
+  private val timeLabel: Label = new Label(Clock.getTimeStamp, Resources.labelSmallStyle)
 
   create()
 
@@ -41,7 +39,7 @@ class GameScreen(root: Program) extends AbstractScreen(root) {
 
     val entityCamera: OrthographicCamera = new OrthographicCamera(Constants.SCREEN_X, Constants.SCREEN_Y)
     val entityViewport: FitViewport = new FitViewport(Constants.SCREEN_X, Constants.SCREEN_Y, entityCamera)
-    entityStage = new EntityStage(this, entityViewport, entityCamera, new SpriteBatch(), controllerHandler, clock)
+    entityStage = new EntityStage(this, entityViewport, entityCamera, new SpriteBatch(), controllerHandler)
   }
 
   private def constructUi(): Unit = {
@@ -97,7 +95,7 @@ class GameScreen(root: Program) extends AbstractScreen(root) {
       entityStage.update(delta)
     }
 
-    clock.update(delta, dateLabel, timeLabel)
+    Clock.update(delta, dateLabel, timeLabel)
 
     uiStage.act(delta)
     uiStage.draw()

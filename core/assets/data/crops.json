@@ -2,7 +2,7 @@
     "Cabbage": {
         "season": "Spring",
         "days": {
-            "toBud": 2,
+            "toSprout": 2,
             "toImmature": 4,
             "toMature": 6
         },

@@ -8,12 +8,12 @@ import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
 import galenscovell.sandbox.ecs.component.{BodyComponent, SteeringComponent}
-import galenscovell.sandbox.ecs.{EntityCreator, EntityManager}
+import galenscovell.sandbox.ecs.EntityCreator
 import galenscovell.sandbox.enums.Crop
-import galenscovell.sandbox.environment.{Clock, Physics}
+import galenscovell.sandbox.environment.Physics
 import galenscovell.sandbox.processing.BaseSteerable
 import galenscovell.sandbox.processing.input.ControllerHandler
-import galenscovell.sandbox.singletons.Constants
+import galenscovell.sandbox.singletons.{Clock, Constants, EntityManager}
 import galenscovell.sandbox.ui.screens.GameScreen
 
 
@@ -21,13 +21,10 @@ class EntityStage(val gameScreen: GameScreen,
                   val entityViewport: FitViewport,
                   val entityCamera: OrthographicCamera,
                   val entitySpriteBatch: SpriteBatch,
-                  val controllerHandler: ControllerHandler,
-                  val clock: Clock) extends Stage(entityViewport, entitySpriteBatch) {
+                  val controllerHandler: ControllerHandler) extends Stage(entityViewport, entitySpriteBatch) {
 
   private val physics: Physics = new Physics
-  private val entityManager: EntityManager = new EntityManager(
-    entitySpriteBatch, controllerHandler, physics.getWorld, clock, this)
-  private val entityCreator: EntityCreator = new EntityCreator(entityManager.getEngine, physics.getWorld)
+  private var entityCreator: EntityCreator = _
 
   // For camera
   private val lerpPos: Vector3 = new Vector3(0, 0, 0)
@@ -46,23 +43,26 @@ class EntityStage(val gameScreen: GameScreen,
     *       Init      *
     ********************/
   private def create(): Unit = {
+    EntityManager.setupSystems(entitySpriteBatch, controllerHandler, physics.getWorld, this)
+    entityCreator = new EntityCreator(EntityManager.getEngine, physics.getWorld)
+
     // Establish player entity
     val player: Entity = entityCreator.makePlayer(0, 0)
     playerBody = player.getComponent(classOf[BodyComponent]).body
     val playerSteerable: BaseSteerable = player.getComponent(classOf[SteeringComponent]).getSteerable
 
     entityCreator.makeCrop(
-      Crop.Cabbage, -1, 3, clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE
+      Crop.Cabbage, -1, 3, Clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE
     )
-    entityCreator.makeCrop(
-      Crop.Cabbage, 0, 3, clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE
-    )
-    entityCreator.makeCrop(
-      Crop.Cabbage, 1, 3, clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE
-    )
-    entityCreator.makeCrop(
-      Crop.Cabbage, 2, 3, clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE
-    )
+//    entityCreator.makeCrop(
+//      Crop.Cabbage, 0, 3, Clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE
+//    )
+//    entityCreator.makeCrop(
+//      Crop.Cabbage, 1, 3, Clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE
+//    )
+//    entityCreator.makeCrop(
+//      Crop.Cabbage, 2, 3, Clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE
+//    )
 
     // Start camera centered on player
     entityCamera.position.set(playerBody.getPosition.x, playerBody.getPosition.y, 0)
@@ -80,7 +80,7 @@ class EntityStage(val gameScreen: GameScreen,
       accumulator -= timeStep
 
       entitySpriteBatch.begin()
-      entityManager.update(delta)
+      EntityManager.update(delta)
       entitySpriteBatch.end()
 
       gameScreen.updateFpsCounter()

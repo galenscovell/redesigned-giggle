@@ -1,10 +1,10 @@
-package galenscovell.sandbox.environment
+package galenscovell.sandbox.singletons
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import galenscovell.sandbox.enums.Season
 
 
-class Clock {
+object Clock {
   private val minDay: Int = 1
   private val maxDay: Int = 28
   private val minHour: Int = 1
@@ -20,8 +20,6 @@ class Clock {
   private var day: Int = minDay
   private var hour: Int = minHour
   private var minute: Int = minMinute
-
-  private var plantGrowthCheck: Boolean = false
 
 
   /********************
@@ -55,9 +53,11 @@ class Clock {
   def updateDate(): Unit = {
     if (day == maxDay) {
       incrementSeason()
+      // TODO: Kill crops on season shift
       day = minDay
     } else {
       day += 1
+      EntityManager.addDayPassedToGrowables(season, day)
     }
   }
 

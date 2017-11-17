@@ -10,8 +10,7 @@ import galenscovell.sandbox.singletons.Constants
 import galenscovell.sandbox.stateMachines.{CropAgent, PlayerAgent}
 
 
-class EntityCreator(engine: Engine,
-                    world: World) {
+class EntityCreator(engine: Engine, world: World) {
   private val jsonReader: JsonReader = new JsonReader()
   private val characterSource: String = "data/characters.json"
   private val cropSource: String = "data/crops.json"
@@ -78,7 +77,7 @@ class EntityCreator(engine: Engine,
     val season: Season.Value = Season.withName(json.getString("season"))
 
     val days: JsonValue = json.get("days")
-    val daysToBud: Int = days.getInt("toBud")
+    val daysToSprout: Int = days.getInt("toSprout")
     val daysToImmature: Int = days.getInt("toImmature")
     val daysToMature: Int = days.getInt("toMature")
 
@@ -86,7 +85,7 @@ class EntityCreator(engine: Engine,
     val sellCost: Int = json.getInt("sellCost")
     val sprite: String = json.getString("sprite")
 
-    entity.add(new GrowableComponent(dayPlanted, season, daysToBud, daysToImmature, daysToMature))
+    entity.add(new GrowableComponent(dayPlanted, season, daysToSprout, daysToImmature, daysToMature))
     entity.add(new CollectableComponent(buyCost, sellCost))
     entity.add(new SpriteComponent(sprite))
 

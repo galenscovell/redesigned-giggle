@@ -1,23 +1,19 @@
-package galenscovell.sandbox.ecs
+package galenscovell.sandbox.singletons
 
 import com.badlogic.ashley.core._
+import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.physics.box2d._
 import galenscovell.sandbox.ecs.component._
+import galenscovell.sandbox.ecs.component.dynamic.DayPassedComponent
 import galenscovell.sandbox.ecs.system._
-import galenscovell.sandbox.environment.Clock
+import galenscovell.sandbox.enums.Season
 import galenscovell.sandbox.processing.input.ControllerHandler
 import galenscovell.sandbox.ui.component.EntityStage
 
 
-class EntityManager(entitySpriteBatch: SpriteBatch,
-                    controllerHandler: ControllerHandler,
-                    world: World,
-                    clock: Clock,
-                    entityStage: EntityStage) {
+object EntityManager {
   private val ecsEngine: Engine = new Engine
-
-  setupSystems()
 
 
   /********************
@@ -33,12 +29,23 @@ class EntityManager(entitySpriteBatch: SpriteBatch,
     ecsEngine.update(delta)
   }
 
+  def addDayPassedToGrowables(season: Season.Value, day: Int): Unit = {
+    val growables: ImmutableArray[Entity] = ecsEngine.getEntitiesFor(
+      Family.all(classOf[GrowableComponent]).get()
+    )
+
+    growables.forEach(e => e.add(new DayPassedComponent(season, day)))
+  }
+
 
   /********************
     *    Creation     *
     ********************/
-  private def setupSystems(): Unit = {
-    // Handles animal AI and state TODO: Pass Time here
+  def setupSystems(entitySpriteBatch: SpriteBatch,
+                           controllerHandler: ControllerHandler,
+                           world: World,
+                           entityStage: EntityStage): Unit = {
+    // Handles animal AI and state
     val animalSystem: AnimalSystem = new AnimalSystem(
       Family.all(
         classOf[AnimalComponent],
@@ -49,7 +56,7 @@ class EntityManager(entitySpriteBatch: SpriteBatch,
       ).get()
     )
 
-    // Handles NPC AI and state TODO: Pass Time here
+    // Handles NPC AI and state
     val characterSystem: CharacterSystem = new CharacterSystem(
       Family.all(
         classOf[CharacterComponent],
@@ -70,9 +77,10 @@ class EntityManager(entitySpriteBatch: SpriteBatch,
     // Handles crop growth and state
     val cropSystem: CropSystem = new CropSystem(
       Family.all(
+        classOf[DayPassedComponent],
         classOf[GrowableComponent],
         classOf[StateComponent]
-      ).get(), clock
+      ).get()
     )
 
     // Handles player controls
