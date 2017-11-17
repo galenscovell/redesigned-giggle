@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import galenscovell.sandbox.ecs.component.{BodyComponent, SteeringComponent}
 import galenscovell.sandbox.ecs.{EntityCreator, EntityManager}
 import galenscovell.sandbox.enums.Crop
-import galenscovell.sandbox.environment.{DateTime, Physics}
+import galenscovell.sandbox.environment.{Clock, Physics}
 import galenscovell.sandbox.processing.BaseSteerable
 import galenscovell.sandbox.processing.input.ControllerHandler
 import galenscovell.sandbox.singletons.Constants
@@ -22,11 +22,11 @@ class EntityStage(val gameScreen: GameScreen,
                   val entityCamera: OrthographicCamera,
                   val entitySpriteBatch: SpriteBatch,
                   val controllerHandler: ControllerHandler,
-                  val dateTime: DateTime) extends Stage(entityViewport, entitySpriteBatch) {
+                  val clock: Clock) extends Stage(entityViewport, entitySpriteBatch) {
 
   private val physics: Physics = new Physics
   private val entityManager: EntityManager = new EntityManager(
-    entitySpriteBatch, controllerHandler, physics.getWorld, dateTime, this)
+    entitySpriteBatch, controllerHandler, physics.getWorld, clock, this)
   private val entityCreator: EntityCreator = new EntityCreator(entityManager.getEngine, physics.getWorld)
 
   // For camera
@@ -51,10 +51,18 @@ class EntityStage(val gameScreen: GameScreen,
     playerBody = player.getComponent(classOf[BodyComponent]).body
     val playerSteerable: BaseSteerable = player.getComponent(classOf[SteeringComponent]).getSteerable
 
-    entityCreator.makeCrop(Crop.Cabbage, Constants.TILE_SIZE, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE, -1, 3)
-    entityCreator.makeCrop(Crop.Cabbage, Constants.TILE_SIZE, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE, 0, 3)
-    entityCreator.makeCrop(Crop.Cabbage, Constants.TILE_SIZE, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE, 1, 3)
-    entityCreator.makeCrop(Crop.Cabbage, Constants.TILE_SIZE, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE, 2, 3)
+    entityCreator.makeCrop(
+      Crop.Cabbage, -1, 3, clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE
+    )
+    entityCreator.makeCrop(
+      Crop.Cabbage, 0, 3, clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE
+    )
+    entityCreator.makeCrop(
+      Crop.Cabbage, 1, 3, clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE
+    )
+    entityCreator.makeCrop(
+      Crop.Cabbage, 2, 3, clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE
+    )
 
     // Start camera centered on player
     entityCamera.position.set(playerBody.getPosition.x, playerBody.getPosition.y, 0)

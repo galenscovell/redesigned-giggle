@@ -4,6 +4,10 @@ import com.badlogic.ashley.core.Component
 import galenscovell.sandbox.enums.Season
 
 
-class GrowableComponent(val days: Int, val season: Season.Value) extends Component {
-
+class GrowableComponent(val dayPlanted: Int,
+                        val season: Season.Value,
+                        val daysToBud: Int,
+                        val daysToImmature: Int,
+                        val daysToMature: Int) extends Component {
+  var lastUpdatedDay: Int = dayPlanted
 }

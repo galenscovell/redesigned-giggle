@@ -1,7 +1,11 @@
 {
     "Cabbage": {
         "season": "Spring",
-        "days": 3,
+        "days": {
+            "toBud": 2,
+            "toImmature": 4,
+            "toMature": 6
+        },
         "buyCost": 100,
         "sellCost": 200,
 	    "sprite": "crop"

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.physics.box2d._
 import galenscovell.sandbox.ecs.component._
 import galenscovell.sandbox.ecs.system._
-import galenscovell.sandbox.environment.DateTime
+import galenscovell.sandbox.environment.Clock
 import galenscovell.sandbox.processing.input.ControllerHandler
 import galenscovell.sandbox.ui.component.EntityStage
 
@@ -13,7 +13,7 @@ import galenscovell.sandbox.ui.component.EntityStage
 class EntityManager(entitySpriteBatch: SpriteBatch,
                     controllerHandler: ControllerHandler,
                     world: World,
-                    dateTime: DateTime,
+                    clock: Clock,
                     entityStage: EntityStage) {
   private val ecsEngine: Engine = new Engine
 
@@ -67,12 +67,12 @@ class EntityManager(entitySpriteBatch: SpriteBatch,
       ).get(), world
     )
 
-    // Handles crop growth TODO: Pass Time here
+    // Handles crop growth and state
     val cropSystem: CropSystem = new CropSystem(
       Family.all(
         classOf[GrowableComponent],
         classOf[StateComponent]
-      ).get()
+      ).get(), clock
     )
 
     // Handles player controls

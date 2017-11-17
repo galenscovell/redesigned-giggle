@@ -7,12 +7,12 @@ public enum PlayerAgent implements State<StateComponent> {
     DEFAULT() {
         @Override
         public void enter(StateComponent stateComponent) {
-            System.out.println("Player Enter DEFAULT");
+            System.out.println(String.format("Player: Enter %s", getName()));
         }
 
         @Override
         public void exit(StateComponent stateComponent) {
-            System.out.println("Player Exit DEFAULT");
+            System.out.println(String.format("Player: Exit %s", getName()));
         }
 
         @Override
@@ -27,7 +27,7 @@ public enum PlayerAgent implements State<StateComponent> {
 
         @Override
         public String getName() {
-            return "default";
+            return "DEFAULT";
         }
     }
 }

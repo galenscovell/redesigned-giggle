@@ -2,8 +2,9 @@ package galenscovell.sandbox.ecs.system
 
 import com.badlogic.ashley.core._
 import com.badlogic.ashley.systems.IteratingSystem
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d._
-import galenscovell.sandbox.ecs.component.{BodyComponent, PlayerComponent}
+import galenscovell.sandbox.ecs.component.BodyComponent
 
 
 class CollisionSystem(family: Family, world: World) extends IteratingSystem(family) with ContactListener {
@@ -45,16 +46,16 @@ class CollisionSystem(family: Family, world: World) extends IteratingSystem(fami
   override def postSolve(contact: Contact, impulse: ContactImpulse): Unit = {
     // Can find info about applied impulse here eg. to check if size of collision response
     //  was over a given threshold (to check if object should break, etc.)
-    //        val contactNormal: Vector2 = contact.getWorldManifold.getNormal
-    //        val impulseAmplitude: Float = impulse.getNormalImpulses.array(0) * 100
-    //
-    //        val fixtureA: Fixture = contact.getFixtureA
-    //        val fixtureB: Fixture = contact.getFixtureB
-    //
-    //        val velocityA: Vector2 = fixtureA.getBody.getLinearVelocity
-    //        val velocityB: Vector2 = fixtureB.getBody.getLinearVelocity
-    //
-    //        fixtureB.getBody.setLinearVelocity(contactNormal.scl(impulseAmplitude))
+    val contactNormal: Vector2 = contact.getWorldManifold.getNormal
+    val impulseAmplitude: Float = impulse.getNormalImpulses.array(0)
+
+    val fixtureA: Fixture = contact.getFixtureA
+    val fixtureB: Fixture = contact.getFixtureB
+
+    val velocityA: Vector2 = fixtureA.getBody.getLinearVelocity
+    val velocityB: Vector2 = fixtureB.getBody.getLinearVelocity
+
+    // fixtureB.getBody.setLinearVelocity(contactNormal.scl(impulseAmplitude))
   }
 
   override def endContact(contact: Contact): Unit = {

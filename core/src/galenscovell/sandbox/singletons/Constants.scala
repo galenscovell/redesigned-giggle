@@ -25,11 +25,11 @@ object Constants {
   val UI_Y: Float = 720
 
   // Sprite sizes
+  val TILE_SIZE: Float = 16 / PIXEL_PER_METER
   val SMALL_ENTITY_SIZE: Float = 24 / PIXEL_PER_METER
   val MEDIUM_ENTITY_SIZE: Float = 32 / PIXEL_PER_METER
   val LARGE_ENTITY_SIZE: Float = 64 / PIXEL_PER_METER
   val HUGE_ENTITY_SIZE: Float = 80 / PIXEL_PER_METER
-  val TILE_SIZE: Float = 16 / PIXEL_PER_METER
 
   // Character speeds
   val WALK_SPEED: Float = 4.5f

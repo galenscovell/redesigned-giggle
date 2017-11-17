@@ -1,6 +1,6 @@
 {
     "gatherable": {
-        "sellValue": 200,
-        "nutrition": 0
+        "buyCost": 100,
+        "sellCost": 200
     }
 }

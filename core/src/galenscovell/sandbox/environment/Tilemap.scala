@@ -11,11 +11,9 @@ import com.badlogic.gdx.math.{Rectangle, Vector2}
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType
 import com.badlogic.gdx.physics.box2d._
 import com.badlogic.gdx.utils
-
 import galenscovell.sandbox.processing.BaseSteerable
 import galenscovell.sandbox.processing.pathfinding.AStarGraph
 import galenscovell.sandbox.singletons.Constants
-
 import scala.collection.mutable.ArrayBuffer
 
 

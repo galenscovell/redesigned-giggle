@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import galenscovell.sandbox.enums.Season
 
 
-class DateTime {
+class Clock {
   private val minDay: Int = 1
   private val maxDay: Int = 28
   private val minHour: Int = 1
@@ -13,13 +13,15 @@ class DateTime {
   private val minMinute: Int = 0
   private val maxMinute: Int = 50
 
-  private val dateTimeStep: Float = 6f
-  private var dateTimeAccumulator: Float = 0
+  private val clockStep: Float = 0.05f // 6f
+  private var clockAccumulator: Float = 0
 
   private var season: Season.Value = Season.Spring
   private var day: Int = minDay
   private var hour: Int = minHour
   private var minute: Int = minMinute
+
+  private var plantGrowthCheck: Boolean = false
 
 
   /********************
@@ -27,9 +29,9 @@ class DateTime {
     ********************/
   def update(delta: Float, dateLabel: Label, timeLabel: Label): Unit = {
     val frameTime: Float = Math.min(delta, 0.25f)
-    dateTimeAccumulator += frameTime
-    while (dateTimeAccumulator > dateTimeStep) {
-      dateTimeAccumulator -= dateTimeStep
+    clockAccumulator += frameTime
+    while (clockAccumulator > clockStep) {
+      clockAccumulator -= clockStep
 
       updateClock()
       timeLabel.setText(getTimeStamp)
@@ -60,14 +62,11 @@ class DateTime {
   }
 
   private def incrementSeason(): Unit = {
-    if (season == Season.Spring) {
-      season = Season.Summer
-    } else if (season == Season.Summer) {
-      season = Season.Fall
-    } else if (season == Season.Fall) {
-      season = Season.Winter
-    } else {
-      season = Season.Spring
+    season match {
+      case Season.Spring => season = Season.Summer
+      case Season.Summer => season = Season.Fall
+      case Season.Fall => season = Season.Winter
+      case Season.Winter => season = Season.Spring
     }
   }
 
@@ -98,15 +97,13 @@ class DateTime {
   }
 
   def getTimeStamp: String = {
-    var zeroPaddedHour: String = hour.toString
-    if (zeroPaddedHour.length == 1) {
-      zeroPaddedHour = s"0$zeroPaddedHour"
-    }
+    val zeroPaddedHour: String =
+      if (hour < 10) "0" + hour.toString
+      else hour.toString
 
-    var zeroPaddedMinute: String = minute.toString
-    if (zeroPaddedMinute.length == 1) {
-      zeroPaddedMinute = s"0$zeroPaddedMinute"
-    }
+    val zeroPaddedMinute: String =
+      if (minute < 10) "0" + minute.toString
+      else minute.toString
 
     s"$zeroPaddedHour:$zeroPaddedMinute"
   }
