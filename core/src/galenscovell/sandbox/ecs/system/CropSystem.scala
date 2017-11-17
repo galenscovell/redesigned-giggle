@@ -18,26 +18,17 @@ class CropSystem(family: Family) extends IteratingSystem(family) {
     val growComponent: GrowableComponent = growableMapper.get(entity)
     val stateComponent: StateComponent = stateMapper.get(entity)
 
+    // Find days that have passed since the date of planting
     val dayDiff: Int = dayPassedComponent.day - growComponent.dayPlanted
 
     stateComponent.getCurrentState match {
-      case CropAgent.SEED =>
-        if (dayDiff == growComponent.daysToSprout) {
-          stateComponent.setState(CropAgent.SPROUT)
-        }
-      case CropAgent.SPROUT =>
-        if (dayDiff == growComponent.daysToImmature) {
-          stateComponent.setState(CropAgent.IMMATURE)
-        }
-      case CropAgent.IMMATURE =>
-        if (dayDiff == growComponent.daysToMature) {
-          stateComponent.setState(CropAgent.MATURE)
-        }
-      case CropAgent.MATURE =>
-        println("Crop is ready for harvest")
+      case CropAgent.SEED => if (dayDiff == growComponent.daysToSprout) stateComponent.setState(CropAgent.SPROUT)
+      case CropAgent.SPROUT => if (dayDiff == growComponent.daysToImmature) stateComponent.setState(CropAgent.IMMATURE)
+      case CropAgent.IMMATURE => if (dayDiff == growComponent.daysToMature) stateComponent.setState(CropAgent.MATURE)
+      case CropAgent.MATURE => println("Crop is ready for harvest")
     }
 
-    // Remove the dayPassed component since we only want to check crops once each day tick
+    // Remove the dayPassedComponent since we only want to check crops once each day
     entity.remove(classOf[DayPassedComponent])
   }
 }

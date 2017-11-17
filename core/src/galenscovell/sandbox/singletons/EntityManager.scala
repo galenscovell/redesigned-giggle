@@ -5,7 +5,7 @@ import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.physics.box2d._
 import galenscovell.sandbox.ecs.component._
-import galenscovell.sandbox.ecs.component.dynamic.DayPassedComponent
+import galenscovell.sandbox.ecs.component.dynamic.{DayPassedComponent, RemovalComponent}
 import galenscovell.sandbox.ecs.system._
 import galenscovell.sandbox.enums.Season
 import galenscovell.sandbox.processing.input.ControllerHandler
@@ -42,9 +42,9 @@ object EntityManager {
     *    Creation     *
     ********************/
   def setupSystems(entitySpriteBatch: SpriteBatch,
-                           controllerHandler: ControllerHandler,
-                           world: World,
-                           entityStage: EntityStage): Unit = {
+                   controllerHandler: ControllerHandler,
+                   world: World,
+                   entityStage: EntityStage): Unit = {
     // Handles animal AI and state
     val animalSystem: AnimalSystem = new AnimalSystem(
       Family.all(
@@ -92,6 +92,13 @@ object EntityManager {
       ).get(), controllerHandler
     )
 
+    // Handles removal of entities
+    val removalSystem: RemovalSystem = new RemovalSystem(
+      Family.all(
+        classOf[RemovalComponent]
+      ).get()
+    )
+
     // Handles entity graphics
     val renderSystem: RenderSystem = new RenderSystem(
       Family.all(
@@ -102,11 +109,26 @@ object EntityManager {
       ).get(), entitySpriteBatch, entityStage
     )
 
-    ecsEngine.addSystem(animalSystem)
-    ecsEngine.addSystem(characterSystem)
-    ecsEngine.addSystem(collisionSystem)
-    ecsEngine.addSystem(cropSystem)
-    ecsEngine.addSystem(playerSystem)
+    // Add all systems to engine with priorities
+    renderSystem.priority = 0
     ecsEngine.addSystem(renderSystem)
+
+    playerSystem.priority = 1
+    ecsEngine.addSystem(playerSystem)
+
+    collisionSystem.priority = 2
+    ecsEngine.addSystem(collisionSystem)
+
+    characterSystem.priority = 3
+    ecsEngine.addSystem(characterSystem)
+
+    animalSystem.priority = 4
+    ecsEngine.addSystem(animalSystem)
+
+    cropSystem.priority = 5
+    ecsEngine.addSystem(cropSystem)
+
+    removalSystem.priority = 6
+    ecsEngine.addSystem(removalSystem)
   }
 }
