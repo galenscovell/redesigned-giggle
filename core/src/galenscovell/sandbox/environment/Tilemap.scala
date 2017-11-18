@@ -13,7 +13,7 @@ import com.badlogic.gdx.physics.box2d._
 import com.badlogic.gdx.utils
 import galenscovell.sandbox.processing.BaseSteerable
 import galenscovell.sandbox.processing.pathfinding.AStarGraph
-import galenscovell.sandbox.singletons.Constants
+import galenscovell.sandbox.global.Constants
 import scala.collection.mutable.ArrayBuffer
 
 

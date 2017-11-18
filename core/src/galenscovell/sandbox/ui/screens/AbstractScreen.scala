@@ -4,11 +4,11 @@ import com.badlogic.gdx.graphics.{GL20, OrthographicCamera}
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.{Gdx, Screen}
-import galenscovell.sandbox.Program
-import galenscovell.sandbox.singletons.Constants
+import galenscovell.sandbox.Main
+import galenscovell.sandbox.global.Constants
 
 
-class AbstractScreen(root: Program) extends Screen {
+class AbstractScreen(root: Main) extends Screen {
   protected val uiCamera: OrthographicCamera =
     new OrthographicCamera(Gdx.graphics.getWidth, Gdx.graphics.getHeight)
   protected val uiViewport: FitViewport =

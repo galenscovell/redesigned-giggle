@@ -1,7 +1,7 @@
 package galenscovell.sandbox.processing.pathfinding
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import galenscovell.sandbox.singletons.Constants
+import galenscovell.sandbox.global.Constants
 
 
 class PathfindDebugRenderer(aStarGraph: AStarGraph) {

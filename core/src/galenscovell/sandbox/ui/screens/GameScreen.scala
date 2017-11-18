@@ -9,13 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.{Label, Table}
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.viewport.FitViewport
-import galenscovell.sandbox.Program
+import galenscovell.sandbox.Main
 import galenscovell.sandbox.processing.input.ControllerHandler
-import galenscovell.sandbox.singletons.{Clock, Constants, Resources}
-import galenscovell.sandbox.ui.component.EntityStage
+import galenscovell.sandbox.global.{Clock, Constants, Resources}
+import galenscovell.sandbox.ui.components.EntityStage
 
 
-class GameScreen(root: Program) extends AbstractScreen(root) {
+class GameScreen(root: Main) extends AbstractScreen(root) {
   private var entityStage: EntityStage = _
   private val tweenManager: TweenManager = new TweenManager
 

@@ -3,7 +3,7 @@ package galenscovell.sandbox.processing.pathfinding
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.{Fixture, QueryCallback, World}
-import galenscovell.sandbox.singletons.Constants
+import galenscovell.sandbox.global.Constants
 
 
 class AStarGraph(world: World, tileMap: TiledMap, var width: Int, var height: Int) {

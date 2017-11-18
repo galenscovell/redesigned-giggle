@@ -6,11 +6,11 @@ import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.{Image, Table}
 import com.badlogic.gdx.utils.Scaling
-import galenscovell.sandbox.Program
-import galenscovell.sandbox.singletons.{Constants, Resources}
+import galenscovell.sandbox.Main
+import galenscovell.sandbox.global.{Constants, Resources}
 
 
-class LoadScreen(root: Program) extends AbstractScreen(root) {
+class LoadScreen(root: Main) extends AbstractScreen(root) {
   private var loadingImage: Image = _
 
 

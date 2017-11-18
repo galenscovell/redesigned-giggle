@@ -2,8 +2,8 @@ package galenscovell.sandbox.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import galenscovell.sandbox.Program;
-import galenscovell.sandbox.singletons.Constants;
+import galenscovell.sandbox.Main;
+import galenscovell.sandbox.global.Constants;
 
 
 public class DesktopLauncher {
@@ -11,6 +11,6 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = Constants.EXACT_X();
 		config.height = Constants.EXACT_Y();
-		new LwjglApplication(new Program(), config);
+		new LwjglApplication(new Main(), config);
 	}
 }

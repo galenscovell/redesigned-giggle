@@ -2,8 +2,8 @@ package galenscovell.sandbox.processing.pathfinding
 
 import com.badlogic.gdx.ai.utils.Location
 import com.badlogic.gdx.math.Vector2
-import galenscovell.sandbox.singletons.Box2DSteeringUtils
-import galenscovell.sandbox.util.Box2DLocation
+import galenscovell.sandbox.global.Box2DSteeringUtils
+import galenscovell.sandbox.utils.Box2DLocation
 import scala.collection.mutable.ArrayBuffer
 
 
