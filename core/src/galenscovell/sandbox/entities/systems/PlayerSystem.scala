@@ -20,19 +20,27 @@ class PlayerSystem(family: Family, controllerHandler: ControllerHandler) extends
     val body: Body = bodyMapper.get(entity).body
     val stateComponent: StateComponent = stateMapper.get(entity)
 
-    val moveSpeed = if (controllerHandler.runPressed) Constants.RUN_SPEED else Constants.WALK_SPEED
+    val inputVector: Vector2 = controllerHandler.leftAxis
+    if (inputVector.isZero(0.05f)) {
+      stateComponent.setState(PlayerAgent.DEFAULT)
+      body.setLinearVelocity(Vector2.Zero)
+      return
+    }
+
+    var moveSpeed: Float = 0
+    if (controllerHandler.runPressed) {
+      moveSpeed = Constants.RUN_SPEED
+      stateComponent.setState(PlayerAgent.DASH)
+    } else {
+      moveSpeed = Constants.WALK_SPEED
+      stateComponent.setState(PlayerAgent.WALK)
+    }
 
     body.setLinearVelocity(
       controllerHandler.leftAxis.x * moveSpeed,
       controllerHandler.leftAxis.y * moveSpeed
     )
-
     val bodyVelocity: Vector2 = body.getLinearVelocity
-    if (bodyVelocity.isZero(0.05f)) {
-      stateComponent.setState(PlayerAgent.DEFAULT)
-    } else {
-      stateComponent.setState(PlayerAgent.WALK)
-    }
 
     if (Math.abs(bodyVelocity.x) > Math.abs(bodyVelocity.y)) {
       if (bodyVelocity.x > 0) {

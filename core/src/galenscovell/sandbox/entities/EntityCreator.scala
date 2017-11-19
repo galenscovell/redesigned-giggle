@@ -8,7 +8,9 @@ import com.badlogic.gdx.utils.{JsonReader, JsonValue}
 import galenscovell.sandbox.entities.components._
 import galenscovell.sandbox.global.{Constants, Resources}
 import galenscovell.sandbox.global.enums.{Crop, Direction, Season}
-import galenscovell.sandbox.states.{CropAgent, PlayerAgent, State}
+import galenscovell.sandbox.states.{CropAgent, PlayerAgent}
+
+import scala.collection.mutable
 
 
 class EntityCreator(engine: Engine, world: World) {
@@ -25,56 +27,29 @@ class EntityCreator(engine: Engine, world: World) {
     )
 
     // Assemble animation map
-    var animationMap: Map[String, Animation[TextureRegion]] = Map[String, Animation[TextureRegion]]()
-    val keyFrames: com.badlogic.gdx.utils.Array[TextureRegion] = new com.badlogic.gdx.utils.Array[TextureRegion]()
+    val animationMap: mutable.Map[String, Animation[TextureRegion]] = mutable.Map[String, Animation[TextureRegion]]()
 
     // Default
-    animationMap += (createAnimationKey(PlayerAgent.DEFAULT, Direction.RIGHT) ->
-      new Animation[TextureRegion](0, Resources.getTextureRegion("player-walk-right_0")))
-    animationMap += (createAnimationKey(PlayerAgent.DEFAULT, Direction.DOWN) ->
-      new Animation[TextureRegion](0, Resources.getTextureRegion("player-walk-down_0")))
-    animationMap += (createAnimationKey(PlayerAgent.DEFAULT, Direction.LEFT) ->
-      new Animation[TextureRegion](0, Resources.getTextureRegion("player-walk-left_0")))
-    animationMap += (createAnimationKey(PlayerAgent.DEFAULT, Direction.UP) ->
-      new Animation[TextureRegion](0, Resources.getTextureRegion("player-walk-up_0")))
+    Resources.generateAnimationAndAddToMap(
+      animationMap, "player", 0, PlayerAgent.DEFAULT, Direction.RIGHT, List(0), Animation.PlayMode.NORMAL)
+    Resources.generateAnimationAndAddToMap(
+      animationMap, "player", 0, PlayerAgent.DEFAULT, Direction.DOWN, List(0), Animation.PlayMode.NORMAL)
+    Resources.generateAnimationAndAddToMap(
+      animationMap, "player", 0, PlayerAgent.DEFAULT, Direction.LEFT, List(0), Animation.PlayMode.NORMAL)
+    Resources.generateAnimationAndAddToMap(
+      animationMap, "player", 0, PlayerAgent.DEFAULT, Direction.UP, List(0), Animation.PlayMode.NORMAL)
 
     // Walk
-    keyFrames.add(Resources.getTextureRegion("player-walk-right_0"))
-    keyFrames.add(Resources.getTextureRegion("player-walk-right_1"))
-    keyFrames.add(Resources.getTextureRegion("player-walk-right_0"))
-    keyFrames.add(Resources.getTextureRegion("player-walk-right_3"))
-    animationMap += (createAnimationKey(PlayerAgent.WALK, Direction.RIGHT) ->
-      new Animation[TextureRegion](0.4f, keyFrames, Animation.PlayMode.LOOP))
+    Resources.generateAnimationAndAddToMap(
+      animationMap, "player", 0.4f, PlayerAgent.WALK, Direction.RIGHT, List(0, 1, 0, 3), Animation.PlayMode.LOOP)
+    Resources.generateAnimationAndAddToMap(
+      animationMap, "player", 0.4f, PlayerAgent.WALK, Direction.DOWN, List(0, 1, 0, 3), Animation.PlayMode.LOOP)
+    Resources.generateAnimationAndAddToMap(
+      animationMap, "player", 0.4f, PlayerAgent.WALK, Direction.LEFT, List(0, 1, 0, 3), Animation.PlayMode.LOOP)
+    Resources.generateAnimationAndAddToMap(
+      animationMap, "player", 0.4f, PlayerAgent.WALK, Direction.UP, List(0, 1, 0, 3), Animation.PlayMode.LOOP)
 
-    keyFrames.clear()
-
-    keyFrames.add(Resources.getTextureRegion("player-walk-down_0"))
-    keyFrames.add(Resources.getTextureRegion("player-walk-down_1"))
-    keyFrames.add(Resources.getTextureRegion("player-walk-down_0"))
-    keyFrames.add(Resources.getTextureRegion("player-walk-down_3"))
-    animationMap += (createAnimationKey(PlayerAgent.WALK, Direction.DOWN) ->
-      new Animation[TextureRegion](0.4f, keyFrames, Animation.PlayMode.LOOP))
-
-    keyFrames.clear()
-
-    keyFrames.add(Resources.getTextureRegion("player-walk-left_0"))
-    keyFrames.add(Resources.getTextureRegion("player-walk-left_1"))
-    keyFrames.add(Resources.getTextureRegion("player-walk-left_0"))
-    keyFrames.add(Resources.getTextureRegion("player-walk-left_3"))
-    animationMap += (createAnimationKey(PlayerAgent.WALK, Direction.LEFT) ->
-      new Animation[TextureRegion](0.4f, keyFrames, Animation.PlayMode.LOOP))
-
-    keyFrames.clear()
-
-    keyFrames.add(Resources.getTextureRegion("player-walk-up_0"))
-    keyFrames.add(Resources.getTextureRegion("player-walk-up_1"))
-    keyFrames.add(Resources.getTextureRegion("player-walk-up_0"))
-    keyFrames.add(Resources.getTextureRegion("player-walk-up_3"))
-    animationMap += (createAnimationKey(PlayerAgent.WALK, Direction.UP) ->
-      new Animation[TextureRegion](0.4f, keyFrames, Animation.PlayMode.LOOP))
-
-
-    entity.add(new AnimationComponent(animationMap))
+    entity.add(new AnimationComponent(animationMap.toMap))
     entity.add(bodyComponent)
     entity.add(new MovementComponent)
     entity.add(new PlayerComponent)
@@ -99,9 +74,9 @@ class EntityCreator(engine: Engine, world: World) {
     )
 
     // Assemble animation map
-    val animationMap: Map[String, Animation[TextureRegion]] = Map[String, Animation[TextureRegion]]()
+    val animationMap: mutable.Map[String, Animation[TextureRegion]] = mutable.Map[String, Animation[TextureRegion]]()
 
-    entity.add(new AnimationComponent(animationMap))
+    entity.add(new AnimationComponent(animationMap.toMap))
     entity.add(bodyComponent)
     entity.add(new StateComponent(CropAgent.SEED))
     entity.add(new SizeComponent(Constants.TILE_SIZE, height))
@@ -122,10 +97,8 @@ class EntityCreator(engine: Engine, world: World) {
 
     entity.add(new GrowableComponent(dayPlanted, season, daysToSprout, daysToImmature, daysToMature, daysToHarvest))
     entity.add(new CollectableComponent(buyCost, sellCost))
-    // entity.add(new TextureComponent())
+    entity.add(new TextureComponent())
 
     engine.addEntity(entity)
   }
-
-  private def createAnimationKey(agentState: State[StateComponent], dir: Direction.Value): String = s"$agentState-$dir"
 }

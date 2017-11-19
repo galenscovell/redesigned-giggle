@@ -6,21 +6,21 @@ filter: Nearest,Nearest
 repeat: none
 corn-harvest
   rotate: false
-  xy: 290, 10
+  xy: 236, 10
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 corn-immature
   rotate: false
-  xy: 236, 10
+  xy: 218, 10
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 corn-mature
   rotate: false
-  xy: 218, 10
+  xy: 290, 10
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -39,114 +39,114 @@ corn-sprout
   orig: 16, 16
   offset: 0, 0
   index: -1
-player-walk-down_0
-  rotate: false
-  xy: 56, 2
-  size: 16, 24
-  orig: 16, 24
-  offset: 0, 0
-  index: -1
-player-walk-down_2
-  rotate: false
-  xy: 56, 2
-  size: 16, 24
-  orig: 16, 24
-  offset: 0, 0
-  index: -1
-player-walk-down_1
+player-default-right_0
   rotate: false
   xy: 74, 2
   size: 16, 24
   orig: 16, 24
   offset: 0, 0
   index: -1
-player-walk-down_3
+player-walk-right_0
   rotate: false
-  xy: 92, 2
+  xy: 74, 2
   size: 16, 24
   orig: 16, 24
   offset: 0, 0
   index: -1
-player-walk-left_0
-  rotate: false
-  xy: 164, 2
-  size: 16, 24
-  orig: 16, 24
-  offset: 0, 0
-  index: -1
-player-walk-left_2
-  rotate: false
-  xy: 164, 2
-  size: 16, 24
-  orig: 16, 24
-  offset: 0, 0
-  index: -1
-player-walk-left_1
+player-walk-down_0
   rotate: false
   xy: 182, 2
   size: 16, 24
   orig: 16, 24
   offset: 0, 0
   index: -1
-player-walk-left_3
+player-default-down_0
+  rotate: false
+  xy: 182, 2
+  size: 16, 24
+  orig: 16, 24
+  offset: 0, 0
+  index: -1
+player-walk-down_1
   rotate: false
   xy: 200, 2
   size: 16, 24
   orig: 16, 24
   offset: 0, 0
   index: -1
-player-walk-right_0
+player-walk-down_3
   rotate: false
-  xy: 110, 2
+  xy: 38, 2
   size: 16, 24
   orig: 16, 24
   offset: 0, 0
   index: -1
-player-walk-right_2
-  rotate: false
-  xy: 110, 2
-  size: 16, 24
-  orig: 16, 24
-  offset: 0, 0
-  index: -1
-player-walk-right_1
-  rotate: false
-  xy: 128, 2
-  size: 16, 24
-  orig: 16, 24
-  offset: 0, 0
-  index: -1
-player-walk-right_3
-  rotate: false
-  xy: 146, 2
-  size: 16, 24
-  orig: 16, 24
-  offset: 0, 0
-  index: -1
-player-walk-up_0
+player-walk-left_0
   rotate: false
   xy: 2, 2
   size: 16, 24
   orig: 16, 24
   offset: 0, 0
   index: -1
-player-walk-up_2
+player-default-left_0
   rotate: false
   xy: 2, 2
   size: 16, 24
   orig: 16, 24
   offset: 0, 0
   index: -1
-player-walk-up_1
+player-walk-left_1
   rotate: false
   xy: 20, 2
   size: 16, 24
   orig: 16, 24
   offset: 0, 0
   index: -1
+player-walk-left_3
+  rotate: false
+  xy: 56, 2
+  size: 16, 24
+  orig: 16, 24
+  offset: 0, 0
+  index: -1
+player-walk-right_1
+  rotate: false
+  xy: 92, 2
+  size: 16, 24
+  orig: 16, 24
+  offset: 0, 0
+  index: -1
+player-walk-right_3
+  rotate: false
+  xy: 110, 2
+  size: 16, 24
+  orig: 16, 24
+  offset: 0, 0
+  index: -1
+player-walk-up_0
+  rotate: false
+  xy: 128, 2
+  size: 16, 24
+  orig: 16, 24
+  offset: 0, 0
+  index: -1
+player-default-up_0
+  rotate: false
+  xy: 128, 2
+  size: 16, 24
+  orig: 16, 24
+  offset: 0, 0
+  index: -1
+player-walk-up_1
+  rotate: false
+  xy: 146, 2
+  size: 16, 24
+  orig: 16, 24
+  offset: 0, 0
+  index: -1
 player-walk-up_3
   rotate: false
-  xy: 38, 2
+  xy: 164, 2
   size: 16, 24
   orig: 16, 24
   offset: 0, 0

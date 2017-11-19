@@ -28,7 +28,7 @@ grid=false
 square=false
 bleed=true
 limitMemory=true
-useIndexes=true
+useIndexes=false
 
 scaleFactors=[{suffix:"",factor:1}]
 inputFiles=[{path:../working/packed/player,type:Input,dirFilePrefix:null,recursive:false,flattenPaths:false},{path:../working/packed/corn,type:Input,dirFilePrefix:null,recursive:false,flattenPaths:false}]

@@ -19,10 +19,11 @@ class AnimationSystem(family: Family) extends IteratingSystem(family) {
 
     stateComponent.update(deltaTime)
 
-    val animationKey: String = stateComponent.getAnimationKey
-    val animation: Animation[TextureRegion] = animationComponent.animationMap(animationKey)
+    val animation: Animation[TextureRegion] = animationComponent.animationMap(stateComponent.getAnimationKey)
     val animationFrame: TextureRegion = animation.getKeyFrame(stateComponent.getStateTime)
 
-    textureComponent.region.setRegion(animationFrame)
+    if (textureComponent.region != animationFrame) {
+      textureComponent.region.setRegion(animationFrame)
+    }
   }
 }
