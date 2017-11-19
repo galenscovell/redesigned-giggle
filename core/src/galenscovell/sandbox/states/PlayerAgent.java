@@ -24,10 +24,26 @@ public enum PlayerAgent implements State<StateComponent> {
         public String getName() {
             return "DEFAULT";
         }
+    },
+    WALK() {
+        @Override
+        public void enter(StateComponent stateComponent) {
+            System.out.println(String.format("Player: Enter %s", getName()));
+        }
 
         @Override
-        public int getId() {
-            return 0;
+        public void exit(StateComponent stateComponent) {
+            System.out.println(String.format("Player: Exit %s", getName()));
+        }
+
+        @Override
+        public void update(float delta, StateComponent stateComponent) {
+
+        }
+
+        @Override
+        public String getName() {
+            return "WALK";
         }
     }
 }

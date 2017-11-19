@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.{ComponentMapper, Entity, Family}
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.g2d.{Animation, TextureRegion}
 import galenscovell.sandbox.entities.components.{AnimationComponent, StateComponent, TextureComponent}
-import galenscovell.sandbox.states.State
 
 
 class AnimationSystem(family: Family) extends IteratingSystem(family) {
@@ -18,8 +17,10 @@ class AnimationSystem(family: Family) extends IteratingSystem(family) {
     val stateComponent: StateComponent = stateMapper.get(entity)
     val textureComponent: TextureComponent = textureMapper.get(entity)
 
-    val currentState: State[StateComponent] = stateComponent.getCurrentState
-    val animation: Animation[TextureRegion] = animationComponent.animationMap.get(currentState.getId)
+    stateComponent.update(deltaTime)
+
+    val animationKey: String = stateComponent.getAnimationKey
+    val animation: Animation[TextureRegion] = animationComponent.animationMap(animationKey)
     val animationFrame: TextureRegion = animation.getKeyFrame(stateComponent.getStateTime)
 
     textureComponent.region.setRegion(animationFrame)

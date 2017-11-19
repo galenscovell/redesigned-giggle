@@ -24,11 +24,6 @@ public enum CropAgent implements State<StateComponent> {
         public String getName() {
             return "SEED";
         }
-
-        @Override
-        public int getId() {
-            return 0;
-        }
     },
     SPROUT() {
         @Override
@@ -49,11 +44,6 @@ public enum CropAgent implements State<StateComponent> {
         @Override
         public String getName() {
             return "SPROUT";
-        }
-
-        @Override
-        public int getId() {
-            return 1;
         }
     },
     IMMATURE() {
@@ -76,11 +66,6 @@ public enum CropAgent implements State<StateComponent> {
         public String getName() {
             return "IMMATURE";
         }
-
-        @Override
-        public int getId() {
-            return 2;
-        }
     },
     MATURE() {
         @Override
@@ -102,10 +87,26 @@ public enum CropAgent implements State<StateComponent> {
         public String getName() {
             return "MATURE";
         }
+    },
+    HARVEST() {
+        @Override
+        public void enter(StateComponent stateComponent) {
+            System.out.println(String.format("Crop: Enter %s", getName()));
+        }
 
         @Override
-        public int getId() {
-            return 3;
+        public void exit(StateComponent stateComponent) {
+            System.out.println(String.format("Crop: Exit %s", getName()));
+        }
+
+        @Override
+        public void update(float delta, StateComponent stateComponent) {
+
+        }
+
+        @Override
+        public String getName() {
+            return "HARVEST";
         }
     }
 }

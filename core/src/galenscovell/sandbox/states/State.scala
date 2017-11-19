@@ -9,6 +9,4 @@ trait State[StateComponent] {
   def update(delta: Float, stateComponent: StateComponent): Unit
 
   def getName: String
-
-  def getId: Int
 }

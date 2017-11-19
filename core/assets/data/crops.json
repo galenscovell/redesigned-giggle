@@ -3,11 +3,11 @@
         "season": "Spring",
         "days": {
             "toSprout": 2,
-            "toImmature": 4,
-            "toMature": 6
+            "toImmature": 3,
+            "toMature": 4,
+            "toHarvest": 0
         },
         "buyCost": 100,
-        "sellCost": 200,
-	    "sprite": "crop"
+        "sellCost": 200
     }
 }

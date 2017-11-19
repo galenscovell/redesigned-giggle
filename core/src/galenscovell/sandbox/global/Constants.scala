@@ -32,8 +32,8 @@ object Constants {
   val HUGE_ENTITY_SIZE: Float = 80 / PIXEL_PER_METER
 
   // Character speeds
-  val WALK_SPEED: Float = 4.5f
-  val RUN_SPEED: Float = 7f
+  val WALK_SPEED: Float = 2.5f
+  val RUN_SPEED: Float = 6f
 }
 
 

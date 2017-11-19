@@ -1,6 +1,7 @@
 package galenscovell.sandbox.entities.components
 
 import com.badlogic.ashley.core.Component
+import galenscovell.sandbox.global.enums.Direction
 import galenscovell.sandbox.states.State
 
 
@@ -8,6 +9,7 @@ class StateComponent(startState: State[StateComponent]) extends Component {
   private var previousState: State[StateComponent] = _
   private var currentState: State[StateComponent] = _
 
+  private var direction: Direction.Value = Direction.RIGHT
   private var stateTime: Float = _
 
   setState(startState)
@@ -32,6 +34,10 @@ class StateComponent(startState: State[StateComponent]) extends Component {
     resetStateTime()
   }
 
+  def setDirection(dir: Direction.Value): Unit = {
+    direction = dir
+  }
+
   def isInState(state: State[StateComponent]): Boolean = {
     currentState == state
   }
@@ -44,5 +50,9 @@ class StateComponent(startState: State[StateComponent]) extends Component {
 
   def getPreviousState: State[StateComponent] = previousState
 
+  def getDirection: Direction.Value = direction
+
   def getStateTime: Float = stateTime
+
+  def getAnimationKey: String = s"$currentState-$direction"
 }

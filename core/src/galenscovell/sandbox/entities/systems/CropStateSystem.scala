@@ -25,7 +25,10 @@ class CropStateSystem(family: Family) extends IteratingSystem(family) {
       case CropAgent.SEED => if (dayDiff == growComponent.daysToSprout) stateComponent.setState(CropAgent.SPROUT)
       case CropAgent.SPROUT => if (dayDiff == growComponent.daysToImmature) stateComponent.setState(CropAgent.IMMATURE)
       case CropAgent.IMMATURE => if (dayDiff == growComponent.daysToMature) stateComponent.setState(CropAgent.MATURE)
-      case CropAgent.MATURE => println("Crop is ready for harvest")
+      case CropAgent.MATURE =>
+        // If crop regrows, check days since MATURE to become HARVESTABLE
+        // If crop regrowthDays is 0, it is immediately HARVESTABLE and dies afterward
+        println("Crop is ready for harvest")
     }
 
     // Remove the dayPassedComponent since we only want to check crops once each day

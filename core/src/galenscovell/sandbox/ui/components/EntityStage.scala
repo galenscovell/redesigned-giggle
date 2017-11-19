@@ -7,13 +7,11 @@ import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
-import galenscovell.sandbox.entities.components.{BodyComponent, SteeringComponent}
 import galenscovell.sandbox.entities.EntityCreator
-import galenscovell.sandbox.global.enums.Crop
+import galenscovell.sandbox.entities.components.BodyComponent
 import galenscovell.sandbox.environment.Physics
-import galenscovell.sandbox.processing.BaseSteerable
+import galenscovell.sandbox.global.{Constants, EntityManager}
 import galenscovell.sandbox.processing.input.ControllerHandler
-import galenscovell.sandbox.global.{Clock, Constants, EntityManager}
 import galenscovell.sandbox.ui.screens.GameScreen
 
 
@@ -49,11 +47,11 @@ class EntityStage(val gameScreen: GameScreen,
     // Establish player entity
     val player: Entity = entityCreator.makePlayer(0, 0)
     playerBody = player.getComponent(classOf[BodyComponent]).body
-    val playerSteerable: BaseSteerable = player.getComponent(classOf[SteeringComponent]).getSteerable
+//    val playerSteerable: BaseSteerable = player.getComponent(classOf[SteeringComponent]).getSteerable
 
-    entityCreator.makeCrop(
-      Crop.Cabbage, -1, 3, Clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE
-    )
+//    entityCreator.makeCrop(
+//      Crop.Cabbage, -1, 3, Clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE
+//    )
 //    entityCreator.makeCrop(
 //      Crop.Cabbage, 0, 3, Clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE
 //    )

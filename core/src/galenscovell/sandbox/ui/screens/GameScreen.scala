@@ -82,6 +82,10 @@ class GameScreen(root: Main) extends AbstractScreen(root) {
     fpsLabel.setText(s"FPS: $fps")
   }
 
+  def pause(setting: Boolean): Unit = {
+    paused = setting
+  }
+
 
   /**********************
     * Screen Operations *

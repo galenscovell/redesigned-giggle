@@ -6,7 +6,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture.TextureFilter
 import com.badlogic.gdx.graphics.g2d.freetype.{FreeTypeFontGenerator, FreeTypeFontGeneratorLoader, FreetypeFontLoader}
-import com.badlogic.gdx.graphics.g2d.{BitmapFont, TextureAtlas}
+import com.badlogic.gdx.graphics.g2d.{BitmapFont, TextureAtlas, TextureRegion}
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle
 
 
@@ -43,7 +43,7 @@ object Resources {
   }
 
   /*********************************
-    * Font and Resource Generation *
+    *  Font/UI Resource Generation *
     ********************************/
   private def generateFont(fontName: String,
                            size: Int,
@@ -81,5 +81,13 @@ object Resources {
 
   private def loadProgressBars(): Unit = {
 
+  }
+
+
+  /*********************************
+    *      Resource Collection     *
+    ********************************/
+  def getTextureRegion(name: String): TextureRegion = {
+    Resources.atlas.findRegion(name)
   }
 }

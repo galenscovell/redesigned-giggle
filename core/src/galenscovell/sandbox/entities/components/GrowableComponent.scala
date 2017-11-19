@@ -8,6 +8,7 @@ class GrowableComponent(val dayPlanted: Int,
                         val season: Season.Value,
                         val daysToSprout: Int,
                         val daysToImmature: Int,
-                        val daysToMature: Int) extends Component {
+                        val daysToMature: Int,
+                        val daysToHarvest: Int) extends Component {
 
 }
