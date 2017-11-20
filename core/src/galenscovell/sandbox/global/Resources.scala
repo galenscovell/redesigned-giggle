@@ -6,10 +6,11 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture.TextureFilter
 import com.badlogic.gdx.graphics.g2d.freetype.{FreeTypeFontGenerator, FreeTypeFontGeneratorLoader, FreetypeFontLoader}
-import com.badlogic.gdx.graphics.g2d.{Animation, BitmapFont, TextureAtlas, TextureRegion}
+import com.badlogic.gdx.graphics.g2d.{BitmapFont, TextureAtlas}
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle
 import galenscovell.sandbox.entities.components.StateComponent
 import galenscovell.sandbox.global.enums.Direction
+import galenscovell.sandbox.graphics.{Animation, AnimationFrame}
 import galenscovell.sandbox.states.State
 
 import scala.collection.mutable
@@ -92,21 +93,20 @@ object Resources {
   /*********************************
     *      Resource Generation     *
     ********************************/
-  def generateAnimationAndAddToMap(map: mutable.Map[String, Animation[TextureRegion]],
+  def generateAnimationAndAddToMap(map: mutable.Map[String, Animation],
                                    name: String,
-                                   secondsPerFrame: Float,
                                    agentState: State[StateComponent],
                                    direction: Direction.Value,
-                                   indices: List[Int],
-                                   playMode: Animation.PlayMode): Unit = {
-    val keyFrames: com.badlogic.gdx.utils.Array[TextureRegion] = new com.badlogic.gdx.utils.Array[TextureRegion]()
+                                   indicesAndTimes: List[(Int, Float)],
+                                   loop: Boolean): Unit = {
+    val keyFrames: com.badlogic.gdx.utils.Array[AnimationFrame] = new com.badlogic.gdx.utils.Array[AnimationFrame]()
 
-    for (i <- indices) {
+    for (indexAndTime <- indicesAndTimes) {
       val textureName: String =
-        s"${name.toLowerCase}-${agentState.toString.toLowerCase()}-${direction.toString.toLowerCase()}_${i.toString}"
-      keyFrames.add(Resources.atlas.findRegion(textureName))
+        s"${name.toLowerCase}-${agentState.getName}-${direction.toString.toLowerCase()}_${indexAndTime._1}"
+      keyFrames.add(new AnimationFrame(Resources.atlas.findRegion(textureName), indexAndTime._2))
     }
 
-    map += (s"$agentState-$direction" -> new Animation[TextureRegion](secondsPerFrame, keyFrames, playMode))
+    map += (s"$agentState-$direction" -> new Animation(keyFrames, loop))
   }
 }

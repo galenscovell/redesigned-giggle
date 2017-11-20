@@ -2,12 +2,12 @@ package galenscovell.sandbox.entities
 
 import com.badlogic.ashley.core.{Engine, Entity}
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.g2d.{Animation, TextureRegion}
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.{JsonReader, JsonValue}
 import galenscovell.sandbox.entities.components._
 import galenscovell.sandbox.global.{Constants, Resources}
 import galenscovell.sandbox.global.enums.{Crop, Direction, Season}
+import galenscovell.sandbox.graphics.Animation
 import galenscovell.sandbox.states.{CropAgent, PlayerAgent}
 
 import scala.collection.mutable
@@ -27,27 +27,37 @@ class EntityCreator(engine: Engine, world: World) {
     )
 
     // Assemble animation map
-    val animationMap: mutable.Map[String, Animation[TextureRegion]] = mutable.Map[String, Animation[TextureRegion]]()
+    val animationMap: mutable.Map[String, Animation] = mutable.Map[String, Animation]()
 
     // Default
-    Resources.generateAnimationAndAddToMap(
-      animationMap, "player", 0, PlayerAgent.DEFAULT, Direction.RIGHT, List(0), Animation.PlayMode.NORMAL)
-    Resources.generateAnimationAndAddToMap(
-      animationMap, "player", 0, PlayerAgent.DEFAULT, Direction.DOWN, List(0), Animation.PlayMode.NORMAL)
-    Resources.generateAnimationAndAddToMap(
-      animationMap, "player", 0, PlayerAgent.DEFAULT, Direction.LEFT, List(0), Animation.PlayMode.NORMAL)
-    Resources.generateAnimationAndAddToMap(
-      animationMap, "player", 0, PlayerAgent.DEFAULT, Direction.UP, List(0), Animation.PlayMode.NORMAL)
+    Resources.generateAnimationAndAddToMap(animationMap, "player", PlayerAgent.DEFAULT, Direction.RIGHT,
+      List((0, 0)), loop = false)
+    Resources.generateAnimationAndAddToMap(animationMap, "player", PlayerAgent.DEFAULT, Direction.DOWN,
+      List((0, 0)), loop = false)
+    Resources.generateAnimationAndAddToMap(animationMap, "player", PlayerAgent.DEFAULT, Direction.LEFT,
+      List((0, 0)), loop = false)
+    Resources.generateAnimationAndAddToMap(animationMap, "player", PlayerAgent.DEFAULT, Direction.UP,
+      List((0, 0)), loop = false)
 
     // Walk
-    Resources.generateAnimationAndAddToMap(
-      animationMap, "player", 0.4f, PlayerAgent.WALK, Direction.RIGHT, List(0, 1, 0, 3), Animation.PlayMode.LOOP)
-    Resources.generateAnimationAndAddToMap(
-      animationMap, "player", 0.4f, PlayerAgent.WALK, Direction.DOWN, List(0, 1, 0, 3), Animation.PlayMode.LOOP)
-    Resources.generateAnimationAndAddToMap(
-      animationMap, "player", 0.4f, PlayerAgent.WALK, Direction.LEFT, List(0, 1, 0, 3), Animation.PlayMode.LOOP)
-    Resources.generateAnimationAndAddToMap(
-      animationMap, "player", 0.4f, PlayerAgent.WALK, Direction.UP, List(0, 1, 0, 3), Animation.PlayMode.LOOP)
+    Resources.generateAnimationAndAddToMap(animationMap, "player", PlayerAgent.WALK, Direction.RIGHT,
+      List((0, 0.4f), (1, 0.5f), (0, 0.4f), (3, 0.5f)), loop = true)
+    Resources.generateAnimationAndAddToMap(animationMap, "player", PlayerAgent.WALK, Direction.DOWN,
+      List((0, 0.4f), (1, 0.5f), (0, 0.4f), (3, 0.5f)), loop = true)
+    Resources.generateAnimationAndAddToMap(animationMap, "player", PlayerAgent.WALK, Direction.LEFT,
+      List((0, 0.4f), (1, 0.5f), (0, 0.4f), (3, 0.5f)), loop = true)
+    Resources.generateAnimationAndAddToMap(animationMap, "player", PlayerAgent.WALK, Direction.UP,
+      List((0, 0.4f), (1, 0.5f), (0, 0.4f), (3, 0.5f)), loop = true)
+
+    // Run
+    Resources.generateAnimationAndAddToMap(animationMap, "player", PlayerAgent.RUN, Direction.RIGHT,
+      List((0, 0.3f), (1, 0.4f), (0, 0.3f), (3, 0.4f)), loop = true)
+    Resources.generateAnimationAndAddToMap(animationMap, "player", PlayerAgent.RUN, Direction.DOWN,
+      List((0, 0.3f), (1, 0.4f), (0, 0.3f), (3, 0.4f)), loop = true)
+    Resources.generateAnimationAndAddToMap(animationMap, "player", PlayerAgent.RUN, Direction.LEFT,
+      List((0, 0.3f), (1, 0.4f), (0, 0.3f), (3, 0.4f)), loop = true)
+    Resources.generateAnimationAndAddToMap(animationMap, "player", PlayerAgent.RUN, Direction.UP,
+      List((0, 0.3f), (1, 0.4f), (0, 0.3f), (3, 0.4f)), loop = true)
 
     entity.add(new AnimationComponent(animationMap.toMap))
     entity.add(bodyComponent)
@@ -74,7 +84,7 @@ class EntityCreator(engine: Engine, world: World) {
     )
 
     // Assemble animation map
-    val animationMap: mutable.Map[String, Animation[TextureRegion]] = mutable.Map[String, Animation[TextureRegion]]()
+    val animationMap: mutable.Map[String, Animation] = mutable.Map[String, Animation]()
 
     entity.add(new AnimationComponent(animationMap.toMap))
     entity.add(bodyComponent)

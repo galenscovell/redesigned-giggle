@@ -2,8 +2,9 @@ package galenscovell.sandbox.entities.systems
 
 import com.badlogic.ashley.core.{ComponentMapper, Entity, Family}
 import com.badlogic.ashley.systems.IteratingSystem
-import com.badlogic.gdx.graphics.g2d.{Animation, TextureRegion}
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import galenscovell.sandbox.entities.components.{AnimationComponent, StateComponent, TextureComponent}
+import galenscovell.sandbox.graphics.Animation
 
 
 class AnimationSystem(family: Family) extends IteratingSystem(family) {
@@ -19,8 +20,9 @@ class AnimationSystem(family: Family) extends IteratingSystem(family) {
 
     stateComponent.update(deltaTime)
 
-    val animation: Animation[TextureRegion] = animationComponent.animationMap(stateComponent.getAnimationKey)
-    val animationFrame: TextureRegion = animation.getKeyFrame(stateComponent.getStateTime)
+    val animation: Animation = animationComponent.animationMap(stateComponent.getAnimationKey)
+    animation.update(deltaTime)
+    val animationFrame: TextureRegion = animation.getFrame
 
     if (textureComponent.region != animationFrame) {
       textureComponent.region.setRegion(animationFrame)

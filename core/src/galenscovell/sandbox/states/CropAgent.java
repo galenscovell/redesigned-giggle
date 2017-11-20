@@ -22,7 +22,7 @@ public enum CropAgent implements State<StateComponent> {
 
         @Override
         public String getName() {
-            return "SEED";
+            return "seed";
         }
     },
     SPROUT() {
@@ -43,7 +43,7 @@ public enum CropAgent implements State<StateComponent> {
 
         @Override
         public String getName() {
-            return "SPROUT";
+            return "sprout";
         }
     },
     IMMATURE() {
@@ -64,7 +64,7 @@ public enum CropAgent implements State<StateComponent> {
 
         @Override
         public String getName() {
-            return "IMMATURE";
+            return "immature";
         }
     },
     MATURE() {
@@ -85,7 +85,7 @@ public enum CropAgent implements State<StateComponent> {
 
         @Override
         public String getName() {
-            return "MATURE";
+            return "mature";
         }
     },
     HARVEST() {
@@ -106,7 +106,7 @@ public enum CropAgent implements State<StateComponent> {
 
         @Override
         public String getName() {
-            return "HARVEST";
+            return "harvest";
         }
     }
 }

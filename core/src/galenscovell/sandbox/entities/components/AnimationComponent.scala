@@ -1,9 +1,9 @@
 package galenscovell.sandbox.entities.components
 
 import com.badlogic.ashley.core.Component
-import com.badlogic.gdx.graphics.g2d.{Animation, TextureRegion}
+import galenscovell.sandbox.graphics.Animation
 
 
-class AnimationComponent(val animationMap: Map[String, Animation[TextureRegion]]) extends Component {
+class AnimationComponent(val animationMap: Map[String, Animation]) extends Component {
 
 }

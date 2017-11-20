@@ -30,7 +30,7 @@ class PlayerSystem(family: Family, controllerHandler: ControllerHandler) extends
     var moveSpeed: Float = 0
     if (controllerHandler.runPressed) {
       moveSpeed = Constants.RUN_SPEED
-      stateComponent.setState(PlayerAgent.DASH)
+      stateComponent.setState(PlayerAgent.RUN)
     } else {
       moveSpeed = Constants.WALK_SPEED
       stateComponent.setState(PlayerAgent.WALK)
