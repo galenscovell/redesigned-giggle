@@ -95,6 +95,8 @@ class EntityCreator(engine: Engine, world: World) {
       List((0, 0)), loop = false)
     Resources.generateAnimationAndAddToMap(animationMap,crop.toString, CropAgent.MATURE, Direction.NONE,
       List((0, 0)), loop = false)
+    Resources.generateAnimationAndAddToMap(animationMap,crop.toString, CropAgent.HARVEST, Direction.NONE,
+      List((0, 0)), loop = false)
 
     entity.add(new AnimationComponent(animationMap.toMap))
     entity.add(bodyComponent)

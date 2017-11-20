@@ -10,5 +10,5 @@ class GrowableComponent(val dayPlanted: Int,
                         val daysToImmature: Int,
                         val daysToMature: Int,
                         val daysToHarvest: Int) extends Component {
-
+  var lastGrowthDay: Int = dayPlanted
 }

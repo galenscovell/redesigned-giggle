@@ -51,18 +51,10 @@ class EntityStage(val gameScreen: GameScreen,
     playerBody = player.getComponent(classOf[BodyComponent]).body
     val playerSteerable: BaseSteerable = player.getComponent(classOf[SteeringComponent]).getSteerable
 
-    entityCreator.makeCrop(
-      Crop.Corn, -1, 3, Clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE
-    )
-    entityCreator.makeCrop(
-      Crop.Corn, 0, 3, Clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE
-    )
-    entityCreator.makeCrop(
-      Crop.Corn, 1, 3, Clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE
-    )
-    entityCreator.makeCrop(
-      Crop.Corn, 2, 3, Clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE
-    )
+    entityCreator.makeCrop(Crop.Corn, -1, 3, Clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE)
+    entityCreator.makeCrop(Crop.Corn, 0, 3, Clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE)
+    entityCreator.makeCrop(Crop.Corn, 1, 3, Clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE)
+    entityCreator.makeCrop(Crop.Corn, 2, 3, Clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE)
 
     // Start camera centered on player
     entityCamera.position.set(playerBody.getPosition.x, playerBody.getPosition.y, 0)
@@ -119,7 +111,7 @@ class EntityStage(val gameScreen: GameScreen,
     lerpPos.x = playerBody.getPosition.x
     lerpPos.y = playerBody.getPosition.y
 
-    entityCamera.position.lerp(lerpPos, 0.05f)
+    entityCamera.position.lerp(lerpPos, 0.1f)
   }
 
   def inCamera(x: Float, y: Float): Boolean = {

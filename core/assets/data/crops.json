@@ -3,9 +3,9 @@
         "season": "Spring",
         "days": {
             "toSprout": 2,
-            "toImmature": 3,
-            "toMature": 4,
-            "toHarvest": 0
+            "toImmature": 2,
+            "toMature": 2,
+            "toHarvest": 2
         },
         "buyCost": 100,
         "sellCost": 200

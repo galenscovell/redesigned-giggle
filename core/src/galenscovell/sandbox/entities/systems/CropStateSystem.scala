@@ -18,17 +18,29 @@ class CropStateSystem(family: Family) extends IteratingSystem(family) {
     val growComponent: GrowableComponent = growableMapper.get(entity)
     val stateComponent: StateComponent = stateMapper.get(entity)
 
-    // Find days that have passed since the date of planting
-    val dayDiff: Int = dayPassedComponent.day - growComponent.dayPlanted
+    // Find days that have passed since the last day of growth
+    val dayDiff: Int = dayPassedComponent.day - growComponent.lastGrowthDay
 
     stateComponent.getCurrentState match {
-      case CropAgent.SEED => if (dayDiff == growComponent.daysToSprout) stateComponent.setState(CropAgent.SPROUT)
-      case CropAgent.SPROUT => if (dayDiff == growComponent.daysToImmature) stateComponent.setState(CropAgent.IMMATURE)
-      case CropAgent.IMMATURE => if (dayDiff == growComponent.daysToMature) stateComponent.setState(CropAgent.MATURE)
-      case CropAgent.MATURE =>
+      case CropAgent.SEED => if (dayDiff == growComponent.daysToSprout) {
+        stateComponent.setState(CropAgent.SPROUT)
+        growComponent.lastGrowthDay = dayPassedComponent.day
+      }
+      case CropAgent.SPROUT => if (dayDiff == growComponent.daysToImmature) {
+        stateComponent.setState(CropAgent.IMMATURE)
+        growComponent.lastGrowthDay = dayPassedComponent.day
+      }
+      case CropAgent.IMMATURE => if (dayDiff == growComponent.daysToMature) {
+        stateComponent.setState(CropAgent.MATURE)
+        growComponent.lastGrowthDay = dayPassedComponent.day
+      }
+      case CropAgent.MATURE => if (dayDiff == growComponent.daysToHarvest) {
         // If crop regrows, check days since MATURE to become HARVESTABLE
         // If crop regrowthDays is 0, it is immediately HARVESTABLE and dies afterward
-        println("Crop is ready for harvest")
+        stateComponent.setState(CropAgent.HARVEST)
+        growComponent.lastGrowthDay = dayPassedComponent.day
+      }
+      case CropAgent.HARVEST => println("Harvestable")
     }
 
     // Remove the dayPassedComponent since we only want to check crops once each day
