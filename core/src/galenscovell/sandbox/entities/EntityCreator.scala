@@ -65,7 +65,7 @@ class EntityCreator(engine: Engine, world: World) {
     entity.add(new PlayerComponent)
     entity.add(new SizeComponent(Constants.SMALL_ENTITY_SIZE, Constants.MEDIUM_ENTITY_SIZE))
     entity.add(new TextureComponent())
-    entity.add(new StateComponent(PlayerAgent.DEFAULT))
+    entity.add(new StateComponent(PlayerAgent.DEFAULT, Direction.DOWN))
     entity.add(new SteeringComponent(bodyComponent.body, Constants.MEDIUM_ENTITY_SIZE, 10, 10))
 
     engine.addEntity(entity)
@@ -86,9 +86,19 @@ class EntityCreator(engine: Engine, world: World) {
     // Assemble animation map
     val animationMap: mutable.Map[String, Animation] = mutable.Map[String, Animation]()
 
+    // Default
+    Resources.generateAnimationAndAddToMap(animationMap, crop.toString, CropAgent.SEED, Direction.NONE,
+      List((0, 0)), loop = false)
+    Resources.generateAnimationAndAddToMap(animationMap, crop.toString, CropAgent.SPROUT, Direction.NONE,
+      List((0, 0)), loop = false)
+    Resources.generateAnimationAndAddToMap(animationMap, crop.toString, CropAgent.IMMATURE, Direction.NONE,
+      List((0, 0)), loop = false)
+    Resources.generateAnimationAndAddToMap(animationMap,crop.toString, CropAgent.MATURE, Direction.NONE,
+      List((0, 0)), loop = false)
+
     entity.add(new AnimationComponent(animationMap.toMap))
     entity.add(bodyComponent)
-    entity.add(new StateComponent(CropAgent.SEED))
+    entity.add(new StateComponent(CropAgent.SEED, Direction.NONE))
     entity.add(new SizeComponent(Constants.TILE_SIZE, height))
 
     // Pull components from JSON data

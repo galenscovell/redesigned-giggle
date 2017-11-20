@@ -5,11 +5,11 @@ import galenscovell.sandbox.global.enums.Direction
 import galenscovell.sandbox.states.State
 
 
-class StateComponent(startState: State[StateComponent]) extends Component {
+class StateComponent(startState: State[StateComponent], startDirection: Direction.Value) extends Component {
   private var previousState: State[StateComponent] = _
   private var currentState: State[StateComponent] = _
 
-  private var direction: Direction.Value = Direction.RIGHT
+  private var direction: Direction.Value = startDirection
   private var stateTime: Float = _
 
   setState(startState)
@@ -54,5 +54,11 @@ class StateComponent(startState: State[StateComponent]) extends Component {
 
   def getStateTime: Float = stateTime
 
-  def getAnimationKey: String = s"$currentState-$direction"
+  def getAnimationKey: String = {
+    if (direction != Direction.NONE) {
+      s"$currentState-$direction"
+    } else {
+      s"$currentState"
+    }
+  }
 }

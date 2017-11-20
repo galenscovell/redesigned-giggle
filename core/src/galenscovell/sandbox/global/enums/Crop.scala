@@ -2,7 +2,8 @@ package galenscovell.sandbox.global.enums
 
 
 object Crop extends Enumeration {
-  val Cabbage,
+  val Corn,
+      Cabbage,
       Turnip,
       Potato,
       Carrot,
