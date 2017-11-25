@@ -8,12 +8,13 @@ class ControllerHandler extends ControllerAdapter {
   val leftAxis: Vector2 = new Vector2(0, 0)
   val rightAxis: Vector2 = new Vector2(0, 0)
   var runPressed: Boolean = false
+  var selectPressed: Boolean = false
 
 
   override def buttonUp(controller: Controller, buttonCode: Int): Boolean = {
     buttonCode match {
       case 0 => runPressed = false
-      case 1 =>
+      case 1 => selectPressed = false
       case 2 =>
       case 3 =>
       case _ =>
@@ -25,7 +26,7 @@ class ControllerHandler extends ControllerAdapter {
   override def buttonDown(controller: Controller, buttonCode: Int): Boolean = {
     buttonCode match {
       case 0 => runPressed = true
-      case 1 =>
+      case 1 => selectPressed = true
       case 2 =>
       case 3 =>
       case _ =>

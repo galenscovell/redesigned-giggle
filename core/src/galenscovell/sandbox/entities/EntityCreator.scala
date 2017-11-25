@@ -5,8 +5,8 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.{JsonReader, JsonValue}
 import galenscovell.sandbox.entities.components._
-import galenscovell.sandbox.global.{Constants, Resources}
 import galenscovell.sandbox.global.enums.{Crop, Direction, Season}
+import galenscovell.sandbox.global.{Constants, Resources}
 import galenscovell.sandbox.graphics.Animation
 import galenscovell.sandbox.states.{CropAgent, PlayerAgent}
 
@@ -20,10 +20,16 @@ class EntityCreator(engine: Engine, world: World) {
   private val gatherableSource: String = "data/gatherables.json"
 
 
-  def makePlayer(posX: Float, posY: Float): Entity = {
+  /** Generates and returns a new player entity with all necessary ECS components.
+    *
+    * @param posX the starting x position of the player
+    * @param posY the starting y position of the player
+    * @return the generated player entity
+    */
+  def createPlayer(posX: Float, posY: Float): Entity = {
     val entity: Entity = new Entity
     val bodyComponent: BodyComponent = new BodyComponent(
-      entity, world, posX, posY, Constants.MEDIUM_ENTITY_SIZE, movable=true, soft=true
+      entity, world, posX, posY, Constants.MEDIUM_ENTITY_SIZE, movable = true, soft = true, isPlayer = true
     )
 
     // Assemble animation map
@@ -64,7 +70,7 @@ class EntityCreator(engine: Engine, world: World) {
     entity.add(new MovementComponent)
     entity.add(new PlayerComponent)
     entity.add(new SizeComponent(Constants.SMALL_ENTITY_SIZE, Constants.MEDIUM_ENTITY_SIZE))
-    entity.add(new TextureComponent())
+    entity.add(new TextureComponent)
     entity.add(new StateComponent(PlayerAgent.DEFAULT, Direction.DOWN))
     entity.add(new SteeringComponent(bodyComponent.body, Constants.MEDIUM_ENTITY_SIZE, 10, 10))
 
@@ -72,12 +78,21 @@ class EntityCreator(engine: Engine, world: World) {
     entity
   }
 
-  def makeCrop(crop: Crop.Value,
-               posX: Float,
-               posY: Float,
-               dayPlanted: Int,
-               height: Float,
-               bodySize: Float): Unit = {
+  /** Generates a new crop entity with all necessary components and adds it to the ECS engine.
+    *
+    * @param crop the crop type as enum
+    * @param posX the starting x position of the crop
+    * @param posY the starting y position of the crop
+    * @param dayPlanted the int day that the crop is created
+    * @param height the pixel size height of the crop
+    * @param bodySize the pixel size diameter of the crop's physics body
+    */
+  def createCrop(crop: Crop.Value,
+                 posX: Float,
+                 posY: Float,
+                 dayPlanted: Int,
+                 height: Float,
+                 bodySize: Float): Unit = {
     val entity: Entity = new Entity
     val bodyComponent: BodyComponent = new BodyComponent(
       entity, world, posX, posY, bodySize, movable=false, soft=true
@@ -108,18 +123,19 @@ class EntityCreator(engine: Engine, world: World) {
     val json: JsonValue = reader.get(crop.toString)
 
     val season: Season.Value = Season.withName(json.getString("season"))
-    val buyCost: Int = json.getInt("buyCost")
-    val sellCost: Int = json.getInt("sellCost")
-
     val days: JsonValue = json.get("days")
     val daysToSprout: Int = days.getInt("toSprout")
     val daysToImmature: Int = days.getInt("toImmature")
     val daysToMature: Int = days.getInt("toMature")
     val daysToHarvest: Int = days.getInt("toHarvest")
 
+    val description: String = json.getString("description")
+    val buyCost: Int = json.getInt("buyCost")
+    val sellCost: Int = json.getInt("sellCost")
+
     entity.add(new GrowableComponent(dayPlanted, season, daysToSprout, daysToImmature, daysToMature, daysToHarvest))
-    entity.add(new CollectableComponent(buyCost, sellCost))
-    entity.add(new TextureComponent())
+    entity.add(new ItemComponent(description, buyCost, sellCost))
+    entity.add(new TextureComponent)
 
     engine.addEntity(entity)
   }

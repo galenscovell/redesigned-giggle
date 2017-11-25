@@ -4,47 +4,57 @@ import com.badlogic.ashley.core._
 import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.physics.box2d._
+import galenscovell.sandbox.entities.EntityCreator
 import galenscovell.sandbox.entities.components._
-import galenscovell.sandbox.entities.components.dynamic.{DayPassedComponent, RemovalComponent}
+import galenscovell.sandbox.entities.components.dynamic.{DayPassedComponent, InteractiveComponent, RemovalComponent}
 import galenscovell.sandbox.entities.systems._
-import galenscovell.sandbox.global.enums.Season
+import galenscovell.sandbox.global.enums.{Interaction, Season}
 import galenscovell.sandbox.processing.input.ControllerHandler
 import galenscovell.sandbox.ui.components.EntityStage
 
 
 object EntityManager {
-  private val ecsEngine: Engine = new Engine
+  private val engine: Engine = new Engine
+  private var creator: EntityCreator = _
 
 
   /********************
     *       Get       *
     ********************/
-  def getEngine: Engine = ecsEngine
+  def getEngine: Engine = engine
+
+  def getCreator: EntityCreator = creator
 
 
   /********************
     *      Update     *
     ********************/
   def update(delta: Float): Unit = {
-    ecsEngine.update(delta)
+    engine.update(delta)
   }
 
-  def addDayPassedToGrowables(season: Season.Value, day: Int): Unit = {
-    val growables: ImmutableArray[Entity] = ecsEngine.getEntitiesFor(
+  def addDayPassedToAllGrowables(season: Season.Value, day: Int): Unit = {
+    val growables: ImmutableArray[Entity] = engine.getEntitiesFor(
       Family.all(classOf[GrowableComponent]).get()
     )
 
     growables.forEach(e => e.add(new DayPassedComponent(season, day)))
   }
 
+  def addInteractiveComponent(entity: Entity, interactionType: Interaction.Value): Unit = {
+    entity.add(new InteractiveComponent(interactionType))
+  }
+
 
   /********************
     *    Creation     *
     ********************/
-  def setupSystems(entitySpriteBatch: SpriteBatch,
-                   controllerHandler: ControllerHandler,
-                   world: World,
-                   entityStage: EntityStage): Unit = {
+  def setup(entitySpriteBatch: SpriteBatch,
+            controllerHandler: ControllerHandler,
+            world: World,
+            entityStage: EntityStage): Unit = {
+    creator = new EntityCreator(engine, world)
+
     // Handles animal AI
     val animalStateSystem: AnimalStateSystem = new AnimalStateSystem(
       Family.all(
@@ -92,6 +102,14 @@ object EntityManager {
       ).get()
     )
 
+    // Handles player collision/input interactions
+    val interactionSystem: InteractionSystem = new InteractionSystem(
+      Family.all(
+        classOf[BodyComponent],
+        classOf[InteractiveComponent]
+      ).get(), world, controllerHandler
+    )
+
     // Handles player controls
     val playerSystem: PlayerSystem = new PlayerSystem(
       Family.all(
@@ -120,27 +138,30 @@ object EntityManager {
 
     // Add systems to engine with priorities
     animationSystem.priority = 0
-    ecsEngine.addSystem(animationSystem)
+    engine.addSystem(animationSystem)
 
     renderSystem.priority = 1
-    ecsEngine.addSystem(renderSystem)
+    engine.addSystem(renderSystem)
 
     playerSystem.priority = 2
-    ecsEngine.addSystem(playerSystem)
+    engine.addSystem(playerSystem)
 
-    collisionSystem.priority = 3
-    ecsEngine.addSystem(collisionSystem)
+    interactionSystem.priority = 3
+    engine.addSystem(interactionSystem)
 
-    characterStateSystem.priority = 4
-    ecsEngine.addSystem(characterStateSystem)
+    // collisionSystem.priority = 4
+    // engine.addSystem(collisionSystem)
 
-    animalStateSystem.priority = 5
-    ecsEngine.addSystem(animalStateSystem)
+    characterStateSystem.priority = 5
+    engine.addSystem(characterStateSystem)
 
-    cropStateSystem.priority = 6
-    ecsEngine.addSystem(cropStateSystem)
+    animalStateSystem.priority = 6
+    engine.addSystem(animalStateSystem)
 
-    removalSystem.priority = 7
-    ecsEngine.addSystem(removalSystem)
+    cropStateSystem.priority = 7
+    engine.addSystem(cropStateSystem)
+
+    removalSystem.priority = 8
+    engine.addSystem(removalSystem)
   }
 }

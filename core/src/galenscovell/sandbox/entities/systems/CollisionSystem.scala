@@ -8,8 +8,7 @@ import galenscovell.sandbox.entities.components.BodyComponent
 
 
 class CollisionSystem(family: Family, world: World) extends IteratingSystem(family) with ContactListener {
-  private val bodyMapper: ComponentMapper[BodyComponent] =
-    ComponentMapper.getFor(classOf[BodyComponent])
+  private val bodyMapper: ComponentMapper[BodyComponent] = ComponentMapper.getFor(classOf[BodyComponent])
 
   world.setContactListener(this)
 
@@ -34,7 +33,7 @@ class CollisionSystem(family: Family, world: World) extends IteratingSystem(fami
     val fixtureA: Fixture = contact.getFixtureA
     val fixtureB: Fixture = contact.getFixtureB
 
-    println("Collision")
+    // println(s"${fixtureA.getUserData} hit ${fixtureB.getUserData}")
   }
 
   override def preSolve(contact: Contact, oldManifold: Manifold): Unit = {

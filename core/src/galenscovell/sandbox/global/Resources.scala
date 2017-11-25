@@ -102,21 +102,17 @@ object Resources {
     val keyFrames: com.badlogic.gdx.utils.Array[AnimationFrame] = new com.badlogic.gdx.utils.Array[AnimationFrame]()
 
     for (i <- indicesAndTimes) {
-      var textureName: String = ""
-      if (direction != Direction.NONE) {
-        textureName = s"${name.toLowerCase}-${agentState.getName}-${direction.toString.toLowerCase()}_${i._1}"
-      } else {
-        textureName = s"${name.toLowerCase}-${agentState.getName}_${i._1}"
+      val textureName: String = direction match {
+        case Direction.NONE => s"${name.toLowerCase}-${agentState.getName}_${i._1}"
+        case _ => s"${name.toLowerCase}-${agentState.getName}-${direction.toString.toLowerCase()}_${i._1}"
       }
 
       keyFrames.add(new AnimationFrame(Resources.atlas.findRegion(textureName), i._2))
     }
 
-    var keyName: String = ""
-    if (direction != Direction.NONE) {
-      keyName = s"$agentState-$direction"
-    } else {
-      keyName = s"$agentState"
+    val keyName: String = direction match {
+      case Direction.NONE => s"$agentState"
+      case _ => s"$agentState-$direction"
     }
 
     map += (keyName -> new Animation(keyFrames, loop))

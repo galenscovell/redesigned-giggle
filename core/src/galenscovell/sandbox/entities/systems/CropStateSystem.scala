@@ -4,6 +4,8 @@ import com.badlogic.ashley.core.{ComponentMapper, Entity, Family}
 import com.badlogic.ashley.systems.IteratingSystem
 import galenscovell.sandbox.entities.components.dynamic.DayPassedComponent
 import galenscovell.sandbox.entities.components.{GrowableComponent, StateComponent}
+import galenscovell.sandbox.global.EntityManager
+import galenscovell.sandbox.global.enums.Interaction
 import galenscovell.sandbox.states.CropAgent
 
 
@@ -35,12 +37,13 @@ class CropStateSystem(family: Family) extends IteratingSystem(family) {
         growComponent.lastGrowthDay = dayPassedComponent.day
       }
       case CropAgent.MATURE => if (dayDiff == growComponent.daysToHarvest) {
-        // If crop regrows, check days since MATURE to become HARVESTABLE
-        // If crop regrowthDays is 0, it is immediately HARVESTABLE and dies afterward
         stateComponent.setState(CropAgent.HARVEST)
         growComponent.lastGrowthDay = dayPassedComponent.day
+
+        // When harvestable crop becomes interactive
+        EntityManager.addInteractiveComponent(entity, Interaction.Collect)
       }
-      case CropAgent.HARVEST => println("Harvestable")
+      case CropAgent.HARVEST =>
     }
 
     // Remove the dayPassedComponent since we only want to check crops once each day

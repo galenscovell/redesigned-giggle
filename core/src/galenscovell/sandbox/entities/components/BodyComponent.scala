@@ -12,11 +12,14 @@ class BodyComponent(entity: Entity,
                     posY: Float,
                     size: Float,
                     movable: Boolean,
-                    soft: Boolean) extends Component{
+                    soft: Boolean,
+                    isPlayer: Boolean = false) extends Component{
   val body: Body = createBody
   val fixture: Fixture = createFixture
   body.setUserData(entity)
-  fixture.setUserData(this)
+
+  if (isPlayer) fixture.setUserData("player")
+  else fixture.setUserData(this)
 
 
   private def createBody: Body = {
