@@ -3,17 +3,19 @@ package galenscovell.sandbox.entities.systems
 import com.badlogic.ashley.core.{ComponentMapper, Entity, Family}
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.physics.box2d._
-import galenscovell.sandbox.entities.components.BodyComponent
 import galenscovell.sandbox.entities.components.dynamic.InteractiveComponent
-import galenscovell.sandbox.global.enums.Interaction
+import galenscovell.sandbox.entities.components.{BodyComponent, GrowableComponent, StateComponent}
+import galenscovell.sandbox.global.{Clock, EntityManager}
 import galenscovell.sandbox.processing.input.ControllerHandler
+import galenscovell.sandbox.states.CropAgent
 
 
-class InteractionSystem(family: Family,
-                        world: World,
-                        controllerHandler: ControllerHandler) extends IteratingSystem(family) with ContactListener {
+class CropInteractionSystem(family: Family,
+                            world: World,
+                            controllerHandler: ControllerHandler) extends IteratingSystem(family) with ContactListener {
   private val bodyMapper: ComponentMapper[BodyComponent] = ComponentMapper.getFor(classOf[BodyComponent])
-  private val interactiveMapper: ComponentMapper[InteractiveComponent] = ComponentMapper.getFor(classOf[InteractiveComponent])
+  private val growableMapper: ComponentMapper[GrowableComponent] = ComponentMapper.getFor(classOf[GrowableComponent])
+  private val stateMapper: ComponentMapper[StateComponent] = ComponentMapper.getFor(classOf[StateComponent])
 
   world.setContactListener(this)
 
@@ -27,16 +29,21 @@ class InteractionSystem(family: Family,
       val body: Body = bodyMapper.get(entity).body
       val otherBody: Body = bodyMapper.get(collisionEntityA).body
 
+      val growComponent: GrowableComponent = growableMapper.get(entity)
+      val stateComponent: StateComponent = stateMapper.get(entity)
+
       if (controllerHandler.selectPressed) {
-        interactiveMapper.get(entity).interactionType match {
-          case Interaction.Collect =>
-            println("Player collecting entity")
-            entity.remove(classOf[InteractiveComponent])
-          case Interaction.Talk =>
-            println("Player talking with entity")
+        controllerHandler.selectPressed = false
+
+        if (growComponent.regrows) {
+          stateComponent.setState(CropAgent.STAGE4)
+          growComponent.setLastUpdated(Clock.getDay)
+          growComponent.decrementStage()
+        } else {
+          EntityManager.addRemovalComponent(entity)
         }
 
-        controllerHandler.selectPressed = false
+        entity.remove(classOf[InteractiveComponent])
       }
     }
   }

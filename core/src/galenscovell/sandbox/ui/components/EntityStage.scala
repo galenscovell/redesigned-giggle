@@ -47,10 +47,10 @@ class EntityStage(val gameScreen: GameScreen,
     playerBody = player.getComponent(classOf[BodyComponent]).body
     val playerSteerable: BaseSteerable = player.getComponent(classOf[SteeringComponent]).getSteerable
 
-    EntityManager.getCreator.createCrop(Crop.Corn, -1, 3, Clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE)
-    EntityManager.getCreator.createCrop(Crop.Corn, 0, 3, Clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE)
-    EntityManager.getCreator.createCrop(Crop.Corn, 1, 3, Clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE)
-    EntityManager.getCreator.createCrop(Crop.Corn, 2, 3, Clock.getDay, Constants.TILE_SIZE, Constants.SMALL_ENTITY_SIZE)
+    EntityManager.getCreator.createCrop(Crop.Corn, -1, 3, Clock.getDay, Constants.MEDIUM_ENTITY_SIZE, Constants.SMALL_ENTITY_SIZE)
+    EntityManager.getCreator.createCrop(Crop.Corn, 0, 3, Clock.getDay, Constants.MEDIUM_ENTITY_SIZE, Constants.SMALL_ENTITY_SIZE)
+    EntityManager.getCreator.createCrop(Crop.Corn, 1, 3, Clock.getDay, Constants.MEDIUM_ENTITY_SIZE, Constants.SMALL_ENTITY_SIZE)
+    EntityManager.getCreator.createCrop(Crop.Corn, 2, 3, Clock.getDay, Constants.MEDIUM_ENTITY_SIZE, Constants.SMALL_ENTITY_SIZE)
 
     // Start camera centered on player
     entityCamera.position.set(playerBody.getPosition.x, playerBody.getPosition.y, 0)

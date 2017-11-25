@@ -102,20 +102,22 @@ class EntityCreator(engine: Engine, world: World) {
     val animationMap: mutable.Map[String, Animation] = mutable.Map[String, Animation]()
 
     // Default
-    Resources.generateAnimationAndAddToMap(animationMap, crop.toString, CropAgent.SEED, Direction.NONE,
+    Resources.generateAnimationAndAddToMap(animationMap, crop.toString, CropAgent.STAGE0, Direction.NONE,
       List((0, 0)), loop = false)
-    Resources.generateAnimationAndAddToMap(animationMap, crop.toString, CropAgent.SPROUT, Direction.NONE,
+    Resources.generateAnimationAndAddToMap(animationMap, crop.toString, CropAgent.STAGE1, Direction.NONE,
       List((0, 0)), loop = false)
-    Resources.generateAnimationAndAddToMap(animationMap, crop.toString, CropAgent.IMMATURE, Direction.NONE,
+    Resources.generateAnimationAndAddToMap(animationMap, crop.toString, CropAgent.STAGE2, Direction.NONE,
       List((0, 0)), loop = false)
-    Resources.generateAnimationAndAddToMap(animationMap,crop.toString, CropAgent.MATURE, Direction.NONE,
+    Resources.generateAnimationAndAddToMap(animationMap,crop.toString, CropAgent.STAGE3, Direction.NONE,
       List((0, 0)), loop = false)
-    Resources.generateAnimationAndAddToMap(animationMap,crop.toString, CropAgent.HARVEST, Direction.NONE,
+    Resources.generateAnimationAndAddToMap(animationMap,crop.toString, CropAgent.STAGE4, Direction.NONE,
+      List((0, 0)), loop = false)
+    Resources.generateAnimationAndAddToMap(animationMap,crop.toString, CropAgent.STAGE5, Direction.NONE,
       List((0, 0)), loop = false)
 
     entity.add(new AnimationComponent(animationMap.toMap))
     entity.add(bodyComponent)
-    entity.add(new StateComponent(CropAgent.SEED, Direction.NONE))
+    entity.add(new StateComponent(CropAgent.STAGE0, Direction.NONE))
     entity.add(new SizeComponent(Constants.TILE_SIZE, height))
 
     // Pull components from JSON data
@@ -123,17 +125,15 @@ class EntityCreator(engine: Engine, world: World) {
     val json: JsonValue = reader.get(crop.toString)
 
     val season: Season.Value = Season.withName(json.getString("season"))
-    val days: JsonValue = json.get("days")
-    val daysToSprout: Int = days.getInt("toSprout")
-    val daysToImmature: Int = days.getInt("toImmature")
-    val daysToMature: Int = days.getInt("toMature")
-    val daysToHarvest: Int = days.getInt("toHarvest")
+    val regrows: Boolean = json.getBoolean("regrows")
+
+    val days: Array[Int] = json.get("growthDays").asIntArray()
 
     val description: String = json.getString("description")
     val buyCost: Int = json.getInt("buyCost")
     val sellCost: Int = json.getInt("sellCost")
 
-    entity.add(new GrowableComponent(dayPlanted, season, daysToSprout, daysToImmature, daysToMature, daysToHarvest))
+    entity.add(new GrowableComponent(dayPlanted, season, days, regrows))
     entity.add(new ItemComponent(description, buyCost, sellCost))
     entity.add(new TextureComponent)
 

@@ -13,7 +13,7 @@ object Clock {
   private val minMinute: Int = 0
   private val maxMinute: Int = 50
 
-  private val clockStep: Float = 0.025f // 6f
+  private val clockStep: Float = 0.0125f // 6f
   private var clockAccumulator: Float = 0
 
   private var season: Season.Value = Season.Spring

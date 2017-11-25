@@ -4,7 +4,7 @@ import galenscovell.sandbox.entities.components.StateComponent;
 
 
 public enum CropAgent implements State<StateComponent> {
-    SEED() {
+    STAGE0() {
         @Override
         public void enter(StateComponent stateComponent) {
 
@@ -22,10 +22,15 @@ public enum CropAgent implements State<StateComponent> {
 
         @Override
         public String getName() {
-            return "seed";
+            return "stage0";
+        }
+
+        @Override
+        public int getId() {
+            return 0;
         }
     },
-    SPROUT() {
+    STAGE1() {
         @Override
         public void enter(StateComponent stateComponent) {
 
@@ -43,10 +48,15 @@ public enum CropAgent implements State<StateComponent> {
 
         @Override
         public String getName() {
-            return "sprout";
+            return "stage1";
+        }
+
+        @Override
+        public int getId() {
+            return 1;
         }
     },
-    IMMATURE() {
+    STAGE2() {
         @Override
         public void enter(StateComponent stateComponent) {
 
@@ -64,10 +74,15 @@ public enum CropAgent implements State<StateComponent> {
 
         @Override
         public String getName() {
-            return "immature";
+            return "stage2";
+        }
+
+        @Override
+        public int getId() {
+            return 2;
         }
     },
-    MATURE() {
+    STAGE3() {
         @Override
         public void enter(StateComponent stateComponent) {
 
@@ -85,10 +100,15 @@ public enum CropAgent implements State<StateComponent> {
 
         @Override
         public String getName() {
-            return "mature";
+            return "stage3";
+        }
+
+        @Override
+        public int getId() {
+            return 3;
         }
     },
-    HARVEST() {
+    STAGE4() {
         @Override
         public void enter(StateComponent stateComponent) {
 
@@ -106,7 +126,38 @@ public enum CropAgent implements State<StateComponent> {
 
         @Override
         public String getName() {
-            return "harvest";
+            return "stage4";
+        }
+
+        @Override
+        public int getId() {
+            return 4;
+        }
+    },
+    STAGE5() {
+        @Override
+        public void enter(StateComponent stateComponent) {
+
+        }
+
+        @Override
+        public void exit(StateComponent stateComponent) {
+
+        }
+
+        @Override
+        public void update(float delta, StateComponent stateComponent) {
+
+        }
+
+        @Override
+        public String getName() {
+            return "stage5";
+        }
+
+        @Override
+        public int getId() {
+            return 5;
         }
     }
 }

@@ -24,6 +24,11 @@ public enum PlayerAgent implements State<StateComponent> {
         public String getName() {
             return "default";
         }
+
+        @Override
+        public int getId() {
+            return 0;
+        }
     },
     WALK() {
         @Override
@@ -45,6 +50,11 @@ public enum PlayerAgent implements State<StateComponent> {
         public String getName() {
             return "walk";
         }
+
+        @Override
+        public int getId() {
+            return 1;
+        }
     },
     RUN() {
         @Override
@@ -65,6 +75,11 @@ public enum PlayerAgent implements State<StateComponent> {
         @Override
         public String getName() {
             return "run";
+        }
+
+        @Override
+        public int getId() {
+            return 2;
         }
     }
 }

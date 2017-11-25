@@ -4,11 +4,7 @@
         "buyCost": 100,
         "sellCost": 200,
         "season": "Spring",
-        "days": {
-            "toSprout": 2,
-            "toImmature": 2,
-            "toMature": 2,
-            "toHarvest": 2
-        }
+        "growthDays": [2, 3, 3, 3, 3],
+        "regrows": true
     }
 }

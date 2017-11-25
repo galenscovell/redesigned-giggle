@@ -8,7 +8,7 @@ import galenscovell.sandbox.entities.EntityCreator
 import galenscovell.sandbox.entities.components._
 import galenscovell.sandbox.entities.components.dynamic.{DayPassedComponent, InteractiveComponent, RemovalComponent}
 import galenscovell.sandbox.entities.systems._
-import galenscovell.sandbox.global.enums.{Interaction, Season}
+import galenscovell.sandbox.global.enums.Season
 import galenscovell.sandbox.processing.input.ControllerHandler
 import galenscovell.sandbox.ui.components.EntityStage
 
@@ -41,8 +41,16 @@ object EntityManager {
     growables.forEach(e => e.add(new DayPassedComponent(season, day)))
   }
 
-  def addInteractiveComponent(entity: Entity, interactionType: Interaction.Value): Unit = {
-    entity.add(new InteractiveComponent(interactionType))
+  def addInteractiveComponent(entity: Entity): Unit = {
+    if (entity.getComponent(classOf[InteractiveComponent]) == null) {
+      entity.add(new InteractiveComponent)
+    }
+  }
+
+  def addRemovalComponent(entity: Entity): Unit ={
+    if (entity.getComponent(classOf[RemovalComponent]) == null) {
+      entity.add(new RemovalComponent)
+    }
   }
 
 
@@ -93,6 +101,16 @@ object EntityManager {
       ).get(), world
     )
 
+    // Handles crop collision/input interactions
+    val cropInteractionSystem: CropInteractionSystem = new CropInteractionSystem(
+      Family.all(
+        classOf[BodyComponent],
+        classOf[GrowableComponent],
+        classOf[InteractiveComponent],
+        classOf[StateComponent]
+      ).get(), world, controllerHandler
+    )
+
     // Handles crop growth
     val cropStateSystem: CropStateSystem = new CropStateSystem(
       Family.all(
@@ -100,14 +118,6 @@ object EntityManager {
         classOf[GrowableComponent],
         classOf[StateComponent]
       ).get()
-    )
-
-    // Handles player collision/input interactions
-    val interactionSystem: InteractionSystem = new InteractionSystem(
-      Family.all(
-        classOf[BodyComponent],
-        classOf[InteractiveComponent]
-      ).get(), world, controllerHandler
     )
 
     // Handles player controls
@@ -123,8 +133,9 @@ object EntityManager {
     // Handles removal of entities
     val removalSystem: RemovalSystem = new RemovalSystem(
       Family.all(
+        classOf[BodyComponent],
         classOf[RemovalComponent]
-      ).get()
+      ).get(), world
     )
 
     // Handles entity graphics
@@ -146,8 +157,8 @@ object EntityManager {
     playerSystem.priority = 2
     engine.addSystem(playerSystem)
 
-    interactionSystem.priority = 3
-    engine.addSystem(interactionSystem)
+    cropInteractionSystem.priority = 3
+    engine.addSystem(cropInteractionSystem)
 
     // collisionSystem.priority = 4
     // engine.addSystem(collisionSystem)
