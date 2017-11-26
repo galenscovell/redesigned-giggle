@@ -1,8 +1,8 @@
 {
     "Corn": {
         "description": "One of the most popular grains. The sweet, fresh cobs are a summer favorite.",
-        "buyCost": 100,
-        "sellCost": 200,
+        "buyPrice": 100,
+        "sellPrice": 200,
         "season": "Spring",
         "growthDays": [2, 3, 3, 3, 3],
         "regrows": true

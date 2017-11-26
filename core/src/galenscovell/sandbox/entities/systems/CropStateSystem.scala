@@ -23,7 +23,7 @@ class CropStateSystem(family: Family) extends IteratingSystem(family) {
       // Find days that have passed since the last day of growth
       val dayDiff: Int = dayPassedComponent.day - growComponent.getLastUpdated
 
-      if (dayDiff == growComponent.getDaysToStage(stateComponent.getCurrentState.getId)) {
+      if (dayDiff == growComponent.getDaysToNextStage(stateComponent.getCurrentState.getId)) {
         stateComponent.getCurrentState match {
           case CropAgent.STAGE0 => stateComponent.setState(CropAgent.STAGE1)
           case CropAgent.STAGE1 => stateComponent.setState(CropAgent.STAGE2)
@@ -33,7 +33,6 @@ class CropStateSystem(family: Family) extends IteratingSystem(family) {
         }
 
         growComponent.setLastUpdated(dayPassedComponent.day)
-        growComponent.incrementStage()
       }
     } else {
       // Crop in Stage6 is now able to be interacted with by Player

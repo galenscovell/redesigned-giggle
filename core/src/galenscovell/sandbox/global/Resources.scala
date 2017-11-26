@@ -6,7 +6,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture.TextureFilter
 import com.badlogic.gdx.graphics.g2d.freetype.{FreeTypeFontGenerator, FreeTypeFontGeneratorLoader, FreetypeFontLoader}
-import com.badlogic.gdx.graphics.g2d.{BitmapFont, TextureAtlas}
+import com.badlogic.gdx.graphics.g2d.{BitmapFont, Sprite, TextureAtlas}
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle
 import galenscovell.sandbox.entities.components.StateComponent
 import galenscovell.sandbox.global.enums.Direction
@@ -116,5 +116,9 @@ object Resources {
     }
 
     map += (keyName -> new Animation(keyFrames, loop))
+  }
+
+  def generateSprite(name: String): Sprite = {
+    atlas.createSprite(name)
   }
 }

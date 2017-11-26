@@ -30,7 +30,7 @@ class RenderSystem(family: Family,
       spriteBatch.draw(
         texture,
         currentX - (sizeComponent.width / 2),
-        currentY - (sizeComponent.height / 2.5f),
+        currentY - (sizeComponent.height / 3),
         sizeComponent.width,
         sizeComponent.height
       )

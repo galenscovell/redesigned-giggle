@@ -2,9 +2,10 @@ package galenscovell.sandbox.processing.input
 
 import com.badlogic.gdx.controllers._
 import com.badlogic.gdx.math.Vector2
+import galenscovell.sandbox.ui.screens.GameScreen
 
 
-class ControllerHandler extends ControllerAdapter {
+class ControllerHandler(gameScreen: GameScreen) extends ControllerAdapter {
   val leftAxis: Vector2 = new Vector2(0, 0)
   val rightAxis: Vector2 = new Vector2(0, 0)
   var runPressed: Boolean = false
@@ -27,7 +28,7 @@ class ControllerHandler extends ControllerAdapter {
     buttonCode match {
       case 0 => runPressed = true
       case 1 => selectPressed = true
-      case 2 =>
+      case 2 => gameScreen.toggleInventory()
       case 3 =>
       case _ =>
     }

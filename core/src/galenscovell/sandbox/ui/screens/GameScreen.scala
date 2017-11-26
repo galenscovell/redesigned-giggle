@@ -1,7 +1,6 @@
 package galenscovell.sandbox.ui.screens
 
 import aurelienribon.tweenengine.TweenManager
-import com.badlogic.gdx.{Gdx, InputMultiplexer}
 import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.{GL20, OrthographicCamera}
@@ -9,10 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.{Label, Table}
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.viewport.FitViewport
+import com.badlogic.gdx.{Gdx, InputMultiplexer}
 import galenscovell.sandbox.Main
-import galenscovell.sandbox.processing.input.ControllerHandler
 import galenscovell.sandbox.global.{Clock, Constants, Resources}
-import galenscovell.sandbox.ui.components.EntityStage
+import galenscovell.sandbox.processing.input.ControllerHandler
+import galenscovell.sandbox.ui.components.{EntityStage, InventoryTable}
 
 
 class GameScreen(root: Main) extends AbstractScreen(root) {
@@ -20,12 +20,14 @@ class GameScreen(root: Main) extends AbstractScreen(root) {
   private val tweenManager: TweenManager = new TweenManager
 
   private val inputMultiplexer: InputMultiplexer = new InputMultiplexer
-  private val controllerHandler: ControllerHandler = new ControllerHandler
+  private val controllerHandler: ControllerHandler = new ControllerHandler(this)
   private var paused: Boolean = false
 
   private val fpsLabel: Label = new Label("FPS", Resources.labelSmallStyle)
   private val dateLabel: Label = new Label(Clock.getDateStamp, Resources.labelMediumStyle)
   private val timeLabel: Label = new Label(Clock.getTimeStamp, Resources.labelSmallStyle)
+
+  private var inventoryTable: InventoryTable = _
 
   create()
 
@@ -75,6 +77,9 @@ class GameScreen(root: Main) extends AbstractScreen(root) {
     mainTable.add(versionTable).width(Constants.EXACT_X).height(32).bottom.expand.fill.padBottom(8)
 
     uiStage.addActor(mainTable)
+
+
+    inventoryTable = new InventoryTable(uiStage)
   }
 
   def updateFpsCounter(): Unit = {
@@ -84,6 +89,20 @@ class GameScreen(root: Main) extends AbstractScreen(root) {
 
   def pause(setting: Boolean): Unit = {
     paused = setting
+  }
+
+
+  /**********************
+    *     Dynamic UI    *
+    **********************/
+  def toggleInventory(): Unit = {
+    if (inventoryTable.hasParent) {
+      println("Toggle inventory: OFF")
+      inventoryTable.remove()
+    } else {
+      println("Toggle inventory: ON")
+      uiStage.addActor(inventoryTable)
+    }
   }
 
 

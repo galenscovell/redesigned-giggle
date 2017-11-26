@@ -38,7 +38,6 @@ class CropInteractionSystem(family: Family,
         if (growComponent.regrows) {
           stateComponent.setState(CropAgent.STAGE4)
           growComponent.setLastUpdated(Clock.getDay)
-          growComponent.decrementStage()
         } else {
           EntityManager.addRemovalComponent(entity)
         }

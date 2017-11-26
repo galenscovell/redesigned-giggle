@@ -2,6 +2,7 @@ package galenscovell.sandbox.entities
 
 import com.badlogic.ashley.core.{Engine, Entity}
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.{JsonReader, JsonValue}
 import galenscovell.sandbox.entities.components._
@@ -78,7 +79,7 @@ class EntityCreator(engine: Engine, world: World) {
     entity
   }
 
-  /** Generates a new crop entity with all necessary components and adds it to the ECS engine.
+  /** Generates a new crop entity with all necessary ECS components and adds it to the ECS engine.
     *
     * @param crop the crop type as enum
     * @param posX the starting x position of the crop
@@ -108,11 +109,11 @@ class EntityCreator(engine: Engine, world: World) {
       List((0, 0)), loop = false)
     Resources.generateAnimationAndAddToMap(animationMap, crop.toString, CropAgent.STAGE2, Direction.NONE,
       List((0, 0)), loop = false)
-    Resources.generateAnimationAndAddToMap(animationMap,crop.toString, CropAgent.STAGE3, Direction.NONE,
+    Resources.generateAnimationAndAddToMap(animationMap, crop.toString, CropAgent.STAGE3, Direction.NONE,
       List((0, 0)), loop = false)
-    Resources.generateAnimationAndAddToMap(animationMap,crop.toString, CropAgent.STAGE4, Direction.NONE,
+    Resources.generateAnimationAndAddToMap(animationMap, crop.toString, CropAgent.STAGE4, Direction.NONE,
       List((0, 0)), loop = false)
-    Resources.generateAnimationAndAddToMap(animationMap,crop.toString, CropAgent.STAGE5, Direction.NONE,
+    Resources.generateAnimationAndAddToMap(animationMap, crop.toString, CropAgent.STAGE5, Direction.NONE,
       List((0, 0)), loop = false)
 
     entity.add(new AnimationComponent(animationMap.toMap))
@@ -130,11 +131,13 @@ class EntityCreator(engine: Engine, world: World) {
     val days: Array[Int] = json.get("growthDays").asIntArray()
 
     val description: String = json.getString("description")
-    val buyCost: Int = json.getInt("buyCost")
-    val sellCost: Int = json.getInt("sellCost")
+    val buyPrice: Int = json.getInt("buyPrice")
+    val sellPrice: Int = json.getInt("sellPrice")
+
+    val iconSprite: Sprite = Resources.generateSprite(crop.toString.toLowerCase)
 
     entity.add(new GrowableComponent(dayPlanted, season, days, regrows))
-    entity.add(new ItemComponent(description, buyCost, sellCost))
+    entity.add(new ItemComponent(description, buyPrice, sellPrice, iconSprite))
     entity.add(new TextureComponent)
 
     engine.addEntity(entity)
